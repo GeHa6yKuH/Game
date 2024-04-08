@@ -40,6 +40,10 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 	{
 		GetCharacterMovement()->MaxWalkSpeed = Speed;
 	}
+	else
+	{
+		GetCharacterMovement()->MaxWalkSpeed = 450;
+	}
 }
 
 // Called to bind functionality to input
@@ -52,7 +56,8 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Move);
 	EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Look);
 	EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
-	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Run);
+	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::StartRunning);
+	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
 }
 
 }
@@ -81,8 +86,13 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 	
 }
 
-void ADefaultMainCharacter::Run(const FInputActionValue& Value)
+
+void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
 {
-	const bool isCurrentlyRunning = Value.Get<bool>();
-	isRunning = isCurrentlyRunning;
+	isRunning = true;
+}
+
+void ADefaultMainCharacter::StopRunning(const FInputActionValue& Value)
+{
+	isRunning = false;
 }

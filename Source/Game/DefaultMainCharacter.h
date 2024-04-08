@@ -39,11 +39,14 @@ protected:
 
 	void Look(const FInputActionValue& Value);
 
-	void Run(const FInputActionValue& Value);
+	void StartRunning(const FInputActionValue& Value);
+	
+	void StopRunning(const FInputActionValue& Value);
 
 private:
+	
 	float Speed = 900;
-	bool isRunning;
+	
 	
 
 public:	
@@ -53,4 +56,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	bool isRunning;
+	
 };
