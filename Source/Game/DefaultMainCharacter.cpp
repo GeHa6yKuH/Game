@@ -34,7 +34,10 @@ void ADefaultMainCharacter::BeginPlay()
 void ADefaultMainCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (isRunning)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = Speed;
+	}
 }
 
 // Called to bind functionality to input
@@ -47,6 +50,7 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Move);
 	EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Look);
 	EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Run);
 }
 
 }
@@ -73,4 +77,10 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 		AddControllerPitchInput(LookAxisValue.Y);
 	}
 	
+}
+
+void ADefaultMainCharacter::Run(const FInputActionValue& Value)
+{
+	const bool isCurrentlyRunning = Value.Get<bool>();
+	isRunning = isCurrentlyRunning;
 }
