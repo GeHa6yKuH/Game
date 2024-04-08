@@ -5,7 +5,9 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
 #include "Math/Vector2D.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
+
 
 // Sets default values
 ADefaultMainCharacter::ADefaultMainCharacter()
