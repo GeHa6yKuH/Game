@@ -30,7 +30,7 @@
 					"Game",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -47,7 +47,7 @@
 					"Game",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -67,7 +67,7 @@
 					"Game",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -84,7 +84,7 @@
 					"Game",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -101,7 +101,7 @@
 					"Game",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -121,7 +121,7 @@
 					"Game",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -138,7 +138,7 @@
 					"Game",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -155,7 +155,7 @@
 					"Game",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -175,7 +175,7 @@
 					"Game",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -192,7 +192,7 @@
 					"Game",
 					"Win64",
 					"Test",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -209,7 +209,7 @@
 					"Game",
 					"Win64",
 					"Test",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -229,7 +229,7 @@
 					"Game",
 					"Win64",
 					"Test",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -246,7 +246,7 @@
 					"Game",
 					"Win64",
 					"Shipping",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -263,7 +263,7 @@
 					"Game",
 					"Win64",
 					"Shipping",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -283,7 +283,7 @@
 					"Game",
 					"Win64",
 					"Shipping",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -300,7 +300,7 @@
 					"GameEditor",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -317,7 +317,7 @@
 					"GameEditor",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -337,7 +337,7 @@
 					"GameEditor",
 					"Win64",
 					"Debug",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -354,7 +354,7 @@
 					"GameEditor",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -371,7 +371,7 @@
 					"GameEditor",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -391,7 +391,7 @@
 					"GameEditor",
 					"Win64",
 					"DebugGame",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -408,7 +408,7 @@
 					"GameEditor",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -425,7 +425,7 @@
 					"GameEditor",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -445,7 +445,7 @@
 					"GameEditor",
 					"Win64",
 					"Development",
-					"C:\\projectsUnreal\\Game\\Game.uproject",
+					"C:\\UnrealProj\\Game\\Game.uproject",
 					"-waitmutex"
 				],
 				"problemMatcher": "$msCompile",
@@ -462,7 +462,7 @@
 			{
 				"name": "Launch Game (Debug)",
 				"request": "launch",
-				"program": "C:\\projectsUnreal\\Game\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
+				"program": "C:\\UnrealProj\\Game\\Binaries\\Win64\\UnrealGame-Win64-Debug.exe",
 				"preLaunchTask": "Game Win64 Debug Build",
 				"args": [
 				],
@@ -478,7 +478,7 @@
 			{
 				"name": "Launch Game (DebugGame)",
 				"request": "launch",
-				"program": "C:\\projectsUnreal\\Game\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
+				"program": "C:\\UnrealProj\\Game\\Binaries\\Win64\\UnrealGame-Win64-DebugGame.exe",
 				"preLaunchTask": "Game Win64 DebugGame Build",
 				"args": [
 				],
@@ -494,7 +494,7 @@
 			{
 				"name": "Launch Game (Development)",
 				"request": "launch",
-				"program": "C:\\projectsUnreal\\Game\\Binaries\\Win64\\UnrealGame.exe",
+				"program": "C:\\UnrealProj\\Game\\Binaries\\Win64\\UnrealGame.exe",
 				"preLaunchTask": "Game Win64 Development Build",
 				"args": [
 				],
@@ -510,7 +510,7 @@
 			{
 				"name": "Launch Game (Test)",
 				"request": "launch",
-				"program": "C:\\projectsUnreal\\Game\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
+				"program": "C:\\UnrealProj\\Game\\Binaries\\Win64\\UnrealGame-Win64-Test.exe",
 				"preLaunchTask": "Game Win64 Test Build",
 				"args": [
 				],
@@ -526,7 +526,7 @@
 			{
 				"name": "Launch Game (Shipping)",
 				"request": "launch",
-				"program": "C:\\projectsUnreal\\Game\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
+				"program": "C:\\UnrealProj\\Game\\Binaries\\Win64\\UnrealGame-Win64-Shipping.exe",
 				"preLaunchTask": "Game Win64 Shipping Build",
 				"args": [
 				],
@@ -545,7 +545,7 @@
 				"program": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-Debug.exe",
 				"preLaunchTask": "GameEditor Win64 Debug Build",
 				"args": [
-					"C:\\projectsUnreal\\Game\\Game.uproject"
+					"C:\\UnrealProj\\Game\\Game.uproject"
 				],
 				"cwd": "C:\\Program Files\\Epic Games\\UE_5.4",
 				"stopAtEntry": false,
@@ -562,7 +562,7 @@
 				"program": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Binaries\\Win64\\UnrealEditor-Win64-DebugGame.exe",
 				"preLaunchTask": "GameEditor Win64 DebugGame Build",
 				"args": [
-					"C:\\projectsUnreal\\Game\\Game.uproject"
+					"C:\\UnrealProj\\Game\\Game.uproject"
 				],
 				"cwd": "C:\\Program Files\\Epic Games\\UE_5.4",
 				"stopAtEntry": false,
@@ -579,7 +579,7 @@
 				"program": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Binaries\\Win64\\UnrealEditor.exe",
 				"preLaunchTask": "GameEditor Win64 Development Build",
 				"args": [
-					"C:\\projectsUnreal\\Game\\Game.uproject"
+					"C:\\UnrealProj\\Game\\Game.uproject"
 				],
 				"cwd": "C:\\Program Files\\Epic Games\\UE_5.4",
 				"stopAtEntry": false,
@@ -599,7 +599,7 @@
 				"args": [
 					"-projectfiles",
 					"-vscode",
-					"-project=C:\\projectsUnreal\\Game\\Game.uproject",
+					"-project=C:\\UnrealProj\\Game\\Game.uproject",
 					"-game",
 					"-engine",
 					"-dotnet"

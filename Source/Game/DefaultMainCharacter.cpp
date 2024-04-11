@@ -2,6 +2,7 @@
 
 
 #include "DefaultMainCharacter.h"
+#include "Gun.h"
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
 #include "Math/Vector2D.h"
@@ -14,13 +15,16 @@ ADefaultMainCharacter::ADefaultMainCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
 }
 
 // Called when the game starts or when spawned
 void ADefaultMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+
+	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
+	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+	Gun->SetOwner(this);
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 {

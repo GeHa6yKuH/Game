@@ -5,7 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "InputAction.h"
+#include "Components/StaticMeshComponent.h"
 #include "DefaultMainCharacter.generated.h"
+
 
 UCLASS()
 class GAME_API ADefaultMainCharacter : public ACharacter
@@ -47,7 +49,15 @@ private:
 	
 	float Speed = 900;
 	
-	
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AGun> GunClass;
+
+	UPROPERTY()
+	class AGun* Gun;
+
+	// UPROPERTY(VisibleAnyWhere)
+	// UStaticMeshComponent* Weapon;
+
 
 public:	
 	// Called every frame
