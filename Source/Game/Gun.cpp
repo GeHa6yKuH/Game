@@ -36,7 +36,7 @@ void AGun::PullTrigger()
 
 	if(bSuccess)
 	{
-		DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Blue, true);
+		DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true);
 	}
 }
 

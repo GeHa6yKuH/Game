@@ -73,5 +73,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isRunning;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly)
+	class UStaticMeshComponent* Mock;
 	
 };

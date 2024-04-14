@@ -6,6 +6,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
 #include "Math/Vector2D.h"
+#include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
 
@@ -15,6 +16,9 @@ ADefaultMainCharacter::ADefaultMainCharacter()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	Mock = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mock"));
+	Mock->SetupAttachment(GetMesh());
 }
 
 // Called when the game starts or when spawned
@@ -25,6 +29,12 @@ void ADefaultMainCharacter::BeginPlay()
 	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
 	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
 	Gun->SetOwner(this);
+
+	UStaticMeshComponent* GunMesh = Gun->GetWeapon();
+	if (GunMesh)
+	{
+		Mock = GunMesh;
+	}
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 {
