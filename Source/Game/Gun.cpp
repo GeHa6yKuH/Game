@@ -2,6 +2,7 @@
 
 
 #include "Gun.h"
+#include "DrawDebugHelpers.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -15,6 +16,28 @@ AGun::AGun()
 
 	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
 	Weapon->SetupAttachment(Root);
+}
+
+void AGun::PullTrigger()
+{
+	APawn* OwnerPawn = Cast<APawn>(GetOwner());
+	if (OwnerPawn == nullptr) return;
+	AController* OwnerController = OwnerPawn->GetController();
+	if (OwnerController == nullptr) return;
+
+	FVector Location;
+	FRotator Rotation;
+	OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+	FHitResult HitResult;
+	FVector End = Location + Rotation.Vector() * MaxRange;
+
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+
+	if(bSuccess)
+	{
+		DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Blue, true);
+	}
 }
 
 // Called when the game starts or when spawned

@@ -62,6 +62,8 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::StartRunning);
 	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
+
+	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
 }
 
 }
@@ -90,6 +92,10 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 	
 }
 
+void ADefaultMainCharacter::Shoot(const FInputActionValue& Value)
+{
+	Gun->PullTrigger();
+}
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
 {

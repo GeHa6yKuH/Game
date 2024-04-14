@@ -37,6 +37,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* RunAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* ShootAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -44,6 +47,8 @@ protected:
 	void StartRunning(const FInputActionValue& Value);
 	
 	void StopRunning(const FInputActionValue& Value);
+
+	void Shoot(const FInputActionValue& Value);
 
 private:
 	
