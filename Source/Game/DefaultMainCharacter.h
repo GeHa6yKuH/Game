@@ -40,6 +40,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* ShootAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* InteractAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -50,18 +53,17 @@ protected:
 
 	void Shoot(const FInputActionValue& Value);
 
+	void Interact(const FInputActionValue& Value);
+
 private:
 	
 	float Speed = 900;
 	
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class AGun> GunClass;
+	TSubclassOf<class ARifleGun> RifleGunClass;
 
 	UPROPERTY()
-	class AGun* Gun;
-
-	// UPROPERTY(VisibleAnyWhere)
-	// UStaticMeshComponent* Weapon;
+	class ARifleGun* RifleGun;
 
 
 public:	

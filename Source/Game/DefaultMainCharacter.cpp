@@ -2,7 +2,10 @@
 
 
 #include "DefaultMainCharacter.h"
-#include "Gun.h"
+
+#include "RifleGun.h"
+#include "PickupMaster.h"
+
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
 #include "Math/Vector2D.h"
@@ -19,6 +22,7 @@ ADefaultMainCharacter::ADefaultMainCharacter()
 
 	Mock = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mock"));
 	Mock->SetupAttachment(GetMesh());
+	
 }
 
 // Called when the game starts or when spawned
@@ -26,15 +30,26 @@ void ADefaultMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	Gun = GetWorld()->SpawnActor<AGun>(GunClass);
-	Gun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
-	Gun->SetOwner(this);
-
-	UStaticMeshComponent* GunMesh = Gun->GetWeapon();
-	if (GunMesh)
+	if(RifleGunClass)
 	{
-		Mock = GunMesh;
-	}
+		RifleGun = GetWorld()->SpawnActor<ARifleGun>(RifleGunClass);
+    	if (RifleGun && GetMesh())
+    	{
+        	RifleGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+        	RifleGun->SetOwner(this);
+			UStaticMeshComponent* WeaponMesh = RifleGun->GetWeapon();
+			if (WeaponMesh)
+			{
+				Mock = WeaponMesh;
+			}
+    	}
+    	else
+    	{
+        	UE_LOG(LogTemp, Error, TEXT("Failed to spawn WeaponPickup"));
+    	}
+	} else {UE_LOG(LogTemp, Error, TEXT("Failed to define RiflePickup class"));}
+
+	
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 {
@@ -68,12 +83,17 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	if (UEnhancedInputComponent* EnhancedInputComp = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
 {
 	EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Move);
+
 	EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Look);
+
 	EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+
 	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::StartRunning);
 	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
 
 	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
+
+	EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
 }
 
 }
@@ -104,7 +124,7 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::Shoot(const FInputActionValue& Value)
 {
-	Gun->PullTrigger();
+	RifleGun->PullTrigger();
 }
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
@@ -115,4 +135,14 @@ void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
 void ADefaultMainCharacter::StopRunning(const FInputActionValue& Value)
 {
 	isRunning = false;
+}
+
+void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
+{
+	TArray<AActor*> OverlappingActors;
+	GetOverlappingActors(OverlappingActors, APickupMaster::StaticClass());
+	if (OverlappingActors[0] != nullptr)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Some Overlapping Actors present!"));
+	}
 }
