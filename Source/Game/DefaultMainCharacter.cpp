@@ -5,6 +5,7 @@
 
 #include "RifleGun.h"
 #include "PickupMaster.h"
+#include "WeaponMaster.h"
 
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
@@ -29,35 +30,15 @@ ADefaultMainCharacter::ADefaultMainCharacter()
 void ADefaultMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if(RifleGunClass)
-	{
-		RifleGun = GetWorld()->SpawnActor<ARifleGun>(RifleGunClass);
-    	if (RifleGun && GetMesh())
-    	{
-        	RifleGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
-        	RifleGun->SetOwner(this);
-			UStaticMeshComponent* WeaponMesh = RifleGun->GetWeapon();
-			if (WeaponMesh)
-			{
-				Mock = WeaponMesh;
-			}
-    	}
-    	else
-    	{
-        	UE_LOG(LogTemp, Error, TEXT("Failed to spawn WeaponPickup"));
-    	}
-	} else {UE_LOG(LogTemp, Error, TEXT("Failed to define RiflePickup class"));}
-
 	
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-{
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 	{
-		Subsystem->AddMappingContext(InputMapping, 0);
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(InputMapping, 0);
+		}
 	}
-}
 	
 }
 
@@ -139,10 +120,37 @@ void ADefaultMainCharacter::StopRunning(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Interacting!"));
 	TArray<AActor*> OverlappingActors;
 	GetOverlappingActors(OverlappingActors, APickupMaster::StaticClass());
-	if (OverlappingActors[0] != nullptr)
+	if (OverlappingActors.Num() > 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Some Overlapping Actors present!"));
-	}
+		APickupMaster* OverlappingPickupMaster = Cast<APickupMaster>(OverlappingActors[0]);
+		if (OverlappingPickupMaster)
+		{
+			OverlappingPickupMaster->Interact_Implementation(*this);
+		} else { UE_LOG(LogTemp, Error, TEXT("Unable to cast to PickupMaster!")); }
+	} else { UE_LOG(LogTemp, Error, TEXT("No Overlapping Actors found!")); }
+}
+
+void ADefaultMainCharacter::SpawnWeapon(AWeaponMaster* WeaponToSpawn)
+{
+	if(RifleGunClass)
+	{
+		RifleGun = GetWorld()->SpawnActor<ARifleGun>(RifleGunClass);
+    	if (RifleGun && GetMesh())
+    	{
+        	RifleGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+        	RifleGun->SetOwner(this);
+			UStaticMeshComponent* WeaponMesh = RifleGun->GetWeapon();
+			if (WeaponMesh)
+			{
+				Mock = WeaponMesh;
+			}
+    	}
+    	else
+    	{
+        	UE_LOG(LogTemp, Error, TEXT("Failed to spawn WeaponPickup"));
+    	}
+	} else {UE_LOG(LogTemp, Error, TEXT("Failed to define RiflePickup class"));}
 }

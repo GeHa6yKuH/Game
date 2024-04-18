@@ -73,10 +73,13 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void SpawnWeapon(class AWeaponMaster* WeaponToSpawn);
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isRunning;
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly)
 	class UStaticMeshComponent* Mock;
+
 	
 };

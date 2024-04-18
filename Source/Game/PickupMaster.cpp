@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "PickupMaster.h"
 #include "Components/SphereComponent.h"
 #include "Components/StaticMeshComponent.h"
-#include "PickupMaster.h"
 
 // Sets default values
 APickupMaster::APickupMaster()
@@ -34,3 +34,7 @@ void APickupMaster::Tick(float DeltaTime)
 
 }
 
+void APickupMaster::Interact_Implementation(class ADefaultMainCharacter& CharacterPickingUp)
+{
+	UE_LOG(LogTemp, Warning, TEXT("pickup master iplemntation reached!"));
+}

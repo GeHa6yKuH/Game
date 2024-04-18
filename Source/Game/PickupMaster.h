@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "InteractionInterface.h"
 #include "PickupMaster.generated.h"
 
 UCLASS()
-class GAME_API APickupMaster : public AActor
+class GAME_API APickupMaster : public AActor, public IInteractionInterface
 {
 	GENERATED_BODY()
 	
@@ -24,6 +25,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	class UStaticMeshComponent* GetPickupItem() const { return PickupItem; }
+
+	virtual void Interact_Implementation(class ADefaultMainCharacter& CharacterPickingUp);
 
 private:
 	UPROPERTY(VisibleAnyWhere)

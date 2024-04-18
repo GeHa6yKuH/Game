@@ -14,6 +14,10 @@ class GAME_API AWeaponPickup : public APickupMaster
 {
 	GENERATED_BODY()
 
+public:
+
+	virtual void Interact_Implementation(class ADefaultMainCharacter& CharacterPickingUp);
+
 private:
 
 	UPROPERTY(VisibleAnywhere)
