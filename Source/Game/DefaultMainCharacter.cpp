@@ -6,9 +6,11 @@
 #include "RifleGun.h"
 #include "PickupMaster.h"
 #include "WeaponMaster.h"
+#include "GameAIController.h"
 
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
+#include "Components/CapsuleComponent.h"
 #include "Math/Vector2D.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -31,6 +33,7 @@ void ADefaultMainCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	HP = MaxHP;
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
@@ -38,6 +41,11 @@ void ADefaultMainCharacter::BeginPlay()
 		{
 			Subsystem->AddMappingContext(InputMapping, 0);
 		}
+	}
+
+	if (GetController()->IsA(AGameAIController::StaticClass()) && RifleForAI)
+	{
+		SpawnWeapon(RifleForAI);
 	}
 	
 }
@@ -103,9 +111,14 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 	
 }
 
-void ADefaultMainCharacter::Shoot(const FInputActionValue& Value)
+void ADefaultMainCharacter::Shoot()
 {
-	RifleGun->PullTrigger();
+	if(CharacterWeapon)
+	{
+		CharacterWeapon->PullTrigger();
+	} else {
+		UE_LOG(LogTemp, Warning, TEXT("No weapon in hands to shoot!"))
+	}
 }
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
@@ -120,7 +133,6 @@ void ADefaultMainCharacter::StopRunning(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Interacting!"));
 	TArray<AActor*> OverlappingActors;
 	GetOverlappingActors(OverlappingActors, APickupMaster::StaticClass());
 	if (OverlappingActors.Num() > 0)
@@ -133,24 +145,51 @@ void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 	} else { UE_LOG(LogTemp, Error, TEXT("No Overlapping Actors found!")); }
 }
 
-void ADefaultMainCharacter::SpawnWeapon(AWeaponMaster* WeaponToSpawn)
+void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 {
-	if(RifleGunClass)
+	if(WeaponClass)
 	{
-		RifleGun = GetWorld()->SpawnActor<ARifleGun>(RifleGunClass);
-    	if (RifleGun && GetMesh())
-    	{
-        	RifleGun->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
-        	RifleGun->SetOwner(this);
-			UStaticMeshComponent* WeaponMesh = RifleGun->GetWeapon();
+		if(CharacterWeapon)
+		{
+			GetWorld()->DestroyActor(CharacterWeapon);
+		}
+		CharacterWeapon = GetWorld()->SpawnActor<AWeaponMaster>(WeaponClass);
+		if (CharacterWeapon && GetMesh())
+		{
+			CharacterWeaponInt = CharacterWeapon->GetWeaponType();
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			CharacterWeapon->SetOwner(this);
+			UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 			if (WeaponMesh)
 			{
 				Mock = WeaponMesh;
 			}
-    	}
-    	else
-    	{
-        	UE_LOG(LogTemp, Error, TEXT("Failed to spawn WeaponPickup"));
-    	}
-	} else {UE_LOG(LogTemp, Error, TEXT("Failed to define RiflePickup class"));}
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed to spawn WeaponPickup"));
+		}
+	}
+}
+
+float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
+{
+	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
+
+	if(DamageApplied > 0 && HP > 0)
+	{
+		DamageApplied = FMath::Min(HP, DamageApplied);
+		HP -= DamageApplied;
+		UE_LOG(LogTemp, Warning, TEXT("current health after shot for %s: %f"), *GetName(), HP);
+
+		if(HP <= 0)
+		{
+			UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
+			DetachFromControllerPendingDestroy();
+			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			GetMesh()->SetSimulatePhysics(true);
+		}
+	}
+
+	return DamageApplied;
 }

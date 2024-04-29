@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "WeaponMaster.h"
+#include "Engine/DamageEvents.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -52,13 +53,23 @@ void AWeaponMaster::PullTrigger()
 	OwnerController->GetPlayerViewPoint(Location, Rotation);
 
 	FHitResult HitResult;
+	FCollisionQueryParams Params;
+	Params.AddIgnoredActor(this);
+	Params.AddIgnoredActor(GetOwner());
 	FVector End = Location + Rotation.Vector() * MaxRange;
 
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1);
+	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
 	if(bSuccess)
 	{
+		FVector ShotDirection = -Rotation.Vector();
 		DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true);
+		FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
+		AActor* ActorHit = HitResult.GetActor();
+		if(ActorHit)
+		{
+			ActorHit->TakeDamage(Damage, DamageEvent, OwnerController, this);
+		}
 	} else
 	{
 		UE_LOG(LogTemp, Error, TEXT("no successful line tracing!"));

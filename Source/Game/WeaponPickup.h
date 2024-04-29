@@ -20,8 +20,8 @@ public:
 
 private:
 
-	UPROPERTY(VisibleAnywhere)
-	class AWeaponMaster* WeaponToSpawn;
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AWeaponMaster> WeaponToSpawn;
 
 	UPROPERTY(EditAnywhere)
 	float MaxRange = 1000;

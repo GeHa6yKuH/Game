@@ -1,20 +1,26 @@
 {
-	"configurations": [
-		{
-			"name": "GameEditor Editor Win64 Development (Game)",
-			"compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
-			"cStandard": "c17",
-			"cppStandard": "c++20",
-			"intelliSenseMode": "msvc-x64",
-			"compileCommands": "C:\\UnrealProj\\Game\\.vscode\\compileCommands_Game.json"
-		},
-		{
-			"name": "Win32",
-			"compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
-			"cStandard": "c17",
-			"cppStandard": "c++20",
-			"intelliSenseMode": "msvc-x64",
-			"compileCommands": "C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default.json"
-		}
-	]
+    "configurations": [
+        {
+            "name": "GameEditor Editor Win64 Development (Game)",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\UnrealProj\\Game\\.vscode\\compileCommands_Game.json"
+        },
+        {
+            "name": "Win32",
+            "compilerPath": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "msvc-x64",
+            "compileCommands": "C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default.json"
+        }
+    ],
+    "includePath": [
+        "${workspaceFolder}\\Intermediate\\**",
+        "${workspaceFolder}\\Plugins\\**",
+        "${workspaceFolder}\\Source\\**"
+    ],
+    "version": 4
 }

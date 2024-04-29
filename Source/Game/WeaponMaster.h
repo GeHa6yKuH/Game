@@ -26,6 +26,8 @@ public:
 
 	UStaticMeshComponent* GetWeapon() const { return Weapon; }
 
+	TEnumAsByte<WeaponType> GetWeaponType() const { return WeaponType; }
+
 private:
 
 	UPROPERTY(VisibleAnyWhere)

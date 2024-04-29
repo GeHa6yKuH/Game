@@ -51,20 +51,26 @@ protected:
 	
 	void StopRunning(const FInputActionValue& Value);
 
-	void Shoot(const FInputActionValue& Value);
-
 	void Interact(const FInputActionValue& Value);
 
 private:
 	
 	float Speed = 900;
-	
-	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class ARifleGun> RifleGunClass;
 
 	UPROPERTY()
-	class ARifleGun* RifleGun;
+	class AWeaponMaster* CharacterWeapon;
 
+	UPROPERTY(VisibleAnyWhere)
+	int CharacterWeaponInt;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ARifleGun> RifleForAI;
+
+	UPROPERTY(EditDefaultsOnly)
+	float MaxHP = 100;
+
+	UPROPERTY(VisibleAnyWhere)
+	float HP;
 
 public:	
 	// Called every frame
@@ -73,7 +79,7 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	void SpawnWeapon(class AWeaponMaster* WeaponToSpawn);
+	void SpawnWeapon(TSubclassOf<class AWeaponMaster> WeaponClass);
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isRunning;
@@ -81,5 +87,8 @@ public:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly)
 	class UStaticMeshComponent* Mock;
 
+	void Shoot();
+
+	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 	
 };
