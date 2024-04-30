@@ -60,9 +60,6 @@ private:
 	UPROPERTY()
 	class AWeaponMaster* CharacterWeapon;
 
-	UPROPERTY(VisibleAnyWhere)
-	int CharacterWeaponInt;
-
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ARifleGun> RifleForAI;
 
@@ -73,6 +70,12 @@ private:
 	float HP;
 
 public:
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
+	int CharacterWeaponInt = -1;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
+	bool HasWeapon = false;
 
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;

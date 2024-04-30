@@ -151,6 +151,7 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 {
 	if(WeaponClass)
 	{
+		HasWeapon = true;
 		if(CharacterWeapon)
 		{
 			GetWorld()->DestroyActor(CharacterWeapon);
@@ -159,13 +160,16 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 		if (CharacterWeapon && GetMesh())
 		{
 			CharacterWeaponInt = CharacterWeapon->GetWeaponType();
-			FName SocketName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
-			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
-			CharacterWeapon->SetOwner(this);
-			UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
-			if (WeaponMesh)
+			if (CharacterWeaponInt >= 0)
 			{
-				Mock = WeaponMesh;
+				FName SocketName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+				CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
+				CharacterWeapon->SetOwner(this);
+				UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+				if (WeaponMesh)
+				{
+					Mock = WeaponMesh;
+				}
 			}
 		}
 		else
