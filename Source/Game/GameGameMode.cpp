@@ -11,5 +11,10 @@ AGameGameMode::AGameGameMode()
 	if (PlayerPawnBPClass.Class != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
-	}
+	} 
+}
+
+void AGameGameMode::PawnKilled(APawn* PawnKilled)
+{
+	
 }

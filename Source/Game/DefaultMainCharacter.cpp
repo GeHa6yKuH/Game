@@ -7,6 +7,8 @@
 #include "PickupMaster.h"
 #include "WeaponMaster.h"
 #include "GameAIController.h"
+#include "GameGameMode.h"
+#include "KillEmAllGameMode.h"
 
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
@@ -157,7 +159,8 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 		if (CharacterWeapon && GetMesh())
 		{
 			CharacterWeaponInt = CharacterWeapon->GetWeaponType();
-			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			FName SocketName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
 			CharacterWeapon->SetOwner(this);
 			UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 			if (WeaponMesh)
@@ -172,6 +175,16 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 	}
 }
 
+bool ADefaultMainCharacter::IsDead() const
+{
+	return HP <= 0;
+}
+
+float ADefaultMainCharacter::GetHPPercent() const
+{
+	return HP / MaxHP;
+}
+
 float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser)
 {
 	float DamageApplied = Super::TakeDamage(DamageAmount, DamageEvent, EventInstigator, DamageCauser);
@@ -182,8 +195,14 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 		HP -= DamageApplied;
 		UE_LOG(LogTemp, Warning, TEXT("current health after shot for %s: %f"), *GetName(), HP);
 
-		if(HP <= 0)
+		if(IsDead())
 		{
+			AGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameGameMode>();
+			if (GameMode)
+			{
+				GameMode->PawnKilled(this);
+			}
+
 			UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
 			DetachFromControllerPendingDestroy();
 			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);

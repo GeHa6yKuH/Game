@@ -13,6 +13,8 @@ class AGameGameMode : public AGameModeBase
 
 public:
 	AGameGameMode();
+
+	virtual void PawnKilled(APawn* PawnKilled);
 };
 
 

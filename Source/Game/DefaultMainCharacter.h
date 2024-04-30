@@ -72,7 +72,14 @@ private:
 	UPROPERTY(VisibleAnyWhere)
 	float HP;
 
-public:	
+public:
+
+	UFUNCTION(BlueprintPure)
+	bool IsDead() const;
+
+	UFUNCTION(BlueprintPure)
+	float GetHPPercent() const;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
