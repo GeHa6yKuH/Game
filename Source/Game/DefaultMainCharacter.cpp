@@ -154,7 +154,9 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 		HasWeapon = true;
 		if(CharacterWeapon)
 		{
-			GetWorld()->DestroyActor(CharacterWeapon);
+			PreviousWeapon = CharacterWeapon;
+			FName SocketName = CharacterWeaponInt == 0 ? TEXT("rifle_holster") : TEXT("pistol_holster");
+			PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
 		}
 		CharacterWeapon = GetWorld()->SpawnActor<AWeaponMaster>(WeaponClass);
 		if (CharacterWeapon && GetMesh())
@@ -205,7 +207,11 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 			if (GameMode)
 			{
 				GameMode->PawnKilled(this);
+			} else
+			{
+				UE_LOG(LogTemp, Error, TEXT("error no gamemode found!"));
 			}
+			
 
 			UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
 			DetachFromControllerPendingDestroy();

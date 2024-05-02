@@ -24,6 +24,10 @@ public:
 
 	void PullTrigger();
 
+	void ResetCooldown();
+
+	bool CanFire();
+
 	UStaticMeshComponent* GetWeapon() const { return Weapon; }
 
 	TEnumAsByte<WeaponType> GetWeaponType() const { return WeaponType; }
@@ -48,6 +52,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
 	TEnumAsByte<WeaponType> WeaponType;
 
+	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
+	float Delay;
+
+	struct FTimerHandle TimerHandle;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -55,5 +64,20 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)	
+	float RecoilMulti = 1;
+
+	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
+	float SideRecoilMulti = 1;
+
+	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
+	float KickbackMulti = 1;
+
+	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
+	float KicksideMulti = 1;
+
+	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
+	float KickupMulti = 1;
 
 };
