@@ -1,6 +1,8 @@
 /.git
 /.vscode
+/.ignore
 /Content
+/Content/StarterContent
 /DerivedDataCache
 /Intermediate
 /Saved
