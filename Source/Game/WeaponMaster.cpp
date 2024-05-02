@@ -2,6 +2,8 @@
 
 #include "WeaponMaster.h"
 #include "Engine/DamageEvents.h"
+#include "DefaultMainCharacter.h"
+#include "TimerManager.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -34,45 +36,63 @@ void AWeaponMaster::Tick(float DeltaTime)
 
 void AWeaponMaster::PullTrigger()
 {
-
-    APawn* OwnerPawn = Cast<APawn>(GetOwner());
-	if (OwnerPawn == nullptr)
+	if (CanFire())
 	{
-		UE_LOG(LogTemp, Error, TEXT("Owner is null!"));
-		return;
-	}
-	AController* OwnerController = OwnerPawn->GetController();
-	if (OwnerController == nullptr)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Owner controller is null!"));
-		return;
-	}
-
-	FVector Location;
-	FRotator Rotation;
-	OwnerController->GetPlayerViewPoint(Location, Rotation);
-
-	FHitResult HitResult;
-	FCollisionQueryParams Params;
-	Params.AddIgnoredActor(this);
-	Params.AddIgnoredActor(GetOwner());
-	FVector End = Location + Rotation.Vector() * MaxRange;
-
-	bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
-
-	if(bSuccess)
-	{
-		FVector ShotDirection = -Rotation.Vector();
-		DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true);
-		FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
-		AActor* ActorHit = HitResult.GetActor();
-		if(ActorHit)
+		APawn* OwnerPawn = Cast<APawn>(GetOwner());
+		if (OwnerPawn == nullptr)
 		{
-			ActorHit->TakeDamage(Damage, DamageEvent, OwnerController, this);
+			UE_LOG(LogTemp, Error, TEXT("Owner is null!"));
+			return;
 		}
-	} else
-	{
-		UE_LOG(LogTemp, Error, TEXT("no successful line tracing!"));
-	}
+		AController* OwnerController = OwnerPawn->GetController();
+		if (OwnerController == nullptr)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Owner controller is null!"));
+			return;
+		}
+
+		FVector Location;
+		FRotator Rotation;
+		OwnerController->GetPlayerViewPoint(Location, Rotation);
+
+		FHitResult HitResult;
+		FCollisionQueryParams Params;
+		Params.AddIgnoredActor(this);
+		Params.AddIgnoredActor(GetOwner());
+		FVector End = Location + Rotation.Vector() * MaxRange;
+
+		bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+
+		if(bSuccess)
+		{
+			FVector ShotDirection = -Rotation.Vector();
+			DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true);
+			FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
+			AActor* ActorHit = HitResult.GetActor();
+			if(ActorHit)
+			{
+				ADefaultMainCharacter* CharacterHit = Cast<ADefaultMainCharacter>(ActorHit);
+				if(CharacterHit && CharacterHit->IsDead())
+				{
+					return;
+				}
+				ActorHit->TakeDamage(Damage, DamageEvent, OwnerController, this);
+				GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AWeaponMaster::ResetCooldown, Delay, false);
+			}
+		} else
+		{
+			UE_LOG(LogTemp, Error, TEXT("no successful line tracing!"));
+		}
+	}	
+}
+
+void AWeaponMaster::ResetCooldown()
+{
+	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}
+
+bool AWeaponMaster::CanFire()
+{
+	return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
 }
 

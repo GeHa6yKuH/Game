@@ -60,6 +60,9 @@ private:
 	UPROPERTY()
 	class AWeaponMaster* CharacterWeapon;
 
+	UPROPERTY()
+	class AWeaponMaster* PreviousWeapon;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ARifleGun> RifleForAI;
 
@@ -97,8 +100,12 @@ public:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly)
 	class UStaticMeshComponent* Mock;
 
+	UFUNCTION(BlueprintCallable)
 	void Shoot();
 
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
+
+	UFUNCTION(BlueprintCallable)
+	class AWeaponMaster* GetCharacterWeapon() const { return CharacterWeapon; };
 	
 };
