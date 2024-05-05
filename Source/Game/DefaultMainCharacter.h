@@ -107,5 +107,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	class AWeaponMaster* GetCharacterWeapon() const { return CharacterWeapon; };
+
+	class UInputMappingContext* const GetInputMapping() { return InputMapping; }
 	
 };
