@@ -14,6 +14,8 @@
 #include "Components/InputComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Math/Vector2D.h"
+#include "Animation/AnimInstance.h"
+#include "Animation/AnimMontage.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
@@ -85,6 +87,9 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
 
 	EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
+
+	EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
+	EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeSecondWeapon);
 }
 
 }
@@ -145,6 +150,61 @@ void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 			OverlappingPickupMaster->Interact_Implementation(*this);
 		} else { UE_LOG(LogTemp, Error, TEXT("Unable to cast to PickupMaster!")); }
 	} else { UE_LOG(LogTemp, Error, TEXT("No Overlapping Actors found!")); }
+}
+
+void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
+{
+	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
+	{
+		return;
+	} else if (CharacterWeapon && PreviousWeapon)
+	{
+		AWeaponMaster* SwitchWeapon = PreviousWeapon;
+		PreviousWeapon = CharacterWeapon;
+		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistol_holster"));
+		CharacterWeapon = SwitchWeapon;
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+		UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+		if (WeaponMesh)
+		{
+			Mock = WeaponMesh;
+		}
+		CharacterWeaponInt = 0;
+	}
+}
+
+void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
+{
+	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 1)
+	{
+		return;
+	} else if (CharacterWeapon && PreviousWeapon)
+	{
+		AWeaponMaster* SwitchWeapon = PreviousWeapon;
+		PreviousWeapon = CharacterWeapon;
+		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("rifle_holster"));
+		CharacterWeapon = SwitchWeapon;
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Pistol_Socket"));
+		UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+		if (WeaponMesh)
+		{
+			Mock = WeaponMesh;
+		}
+		CharacterWeaponInt = 1;
+	}
+
+	// play equip animation
+	// UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	// if (AnimInstance)
+	// {
+	// 	UE_LOG(LogTemp, Warning, TEXT("AnimInstance found!"));
+	// 	float succ = AnimInstance->Montage_Play(PistolEquipAnimation);
+	// 	if (succ == 0)
+	// 	{
+	// 		UE_LOG(LogTemp, Error, TEXT("No successfull Montage play!"));
+	// 	}
+		
+	// }
 }
 
 void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)

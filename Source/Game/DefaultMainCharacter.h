@@ -43,6 +43,12 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* InteractAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* TakeFirstWeaponAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* TakeSecondWeaponAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -52,6 +58,11 @@ protected:
 	void StopRunning(const FInputActionValue& Value);
 
 	void Interact(const FInputActionValue& Value);
+
+	void TakeFirstWeapon(const FInputActionValue& Value);
+
+	void TakeSecondWeapon(const FInputActionValue& Value);
+
 
 private:
 	
@@ -80,6 +91,9 @@ public:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
 	bool HasWeapon = false;
 
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	class UAnimMontage* PistolEquipAnimation;
+
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
@@ -102,7 +116,7 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Shoot();
-
+	
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 
 	UFUNCTION(BlueprintCallable)
