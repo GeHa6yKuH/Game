@@ -70,4 +70,7 @@ public:
 	UFUNCTION()
 	bool IsDoorClosed() const { return DoorClosed; };
 
+	UFUNCTION()
+	void CloseDoor() { SetShouldDoorMoveDown(true); };
+
 };

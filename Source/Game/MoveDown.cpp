@@ -2,6 +2,7 @@
 
 
 #include "MoveDown.h"
+#include "TimerManager.h"
 
 // Sets default values for this component's properties
 UMoveDown::UMoveDown()
@@ -38,6 +39,8 @@ void UMoveDown::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	if (DoorOpen)
 	{
 		SetShouldDoorMove(false);
+		FTimerHandle TimerMemberHandle;
+		GetWorld()->GetTimerManager().SetTimer(TimerMemberHandle, this, &UMoveDown::CloseDoor, 5.0f, false);
 	}
 
 	if (DoorClosed)
