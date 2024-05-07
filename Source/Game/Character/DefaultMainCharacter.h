@@ -121,6 +121,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Shoot();
+
+	void StopShooting();
 	
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 

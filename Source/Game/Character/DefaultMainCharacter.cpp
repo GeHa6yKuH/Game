@@ -85,6 +85,7 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
 
 	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
+	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopShooting);
 
 	EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
 
@@ -125,9 +126,22 @@ void ADefaultMainCharacter::Shoot()
 	if(CharacterWeapon)
 	{
 		CharacterWeapon->PullTrigger();
+		if (CharacterWeapon->GetMagazineBulletsAmount() > 0)
+		{
+			CharacterWeapon->WeaponIsFiring();
+		}
 	} else {
 		UE_LOG(LogTemp, Warning, TEXT("No weapon in hands to shoot!"))
 	}
+}
+
+void ADefaultMainCharacter::StopShooting()
+{
+	if (CharacterWeapon)
+	{
+		CharacterWeapon->WeaponStopsFiring();
+	}
+	
 }
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)

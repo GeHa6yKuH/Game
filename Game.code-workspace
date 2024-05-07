@@ -13,7 +13,10 @@
 		"typescript.tsc.autoDetect": "off",
 		"npm.autoDetect": "off",
 		"files.associations": {
-			"*.rh": "cpp"
+			"*.rh": "cpp",
+			"__locale": "cpp",
+			"system_error": "cpp",
+			"xlocale": "cpp"
 		}
 	},
 	"extensions": {

@@ -107,4 +107,10 @@ public:
 	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
 	float KickupMulti = 1;
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void WeaponIsFiring();
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void WeaponStopsFiring();
+
 };
