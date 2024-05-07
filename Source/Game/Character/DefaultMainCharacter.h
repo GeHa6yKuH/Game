@@ -49,6 +49,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* TakeSecondWeaponAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* ReloadWeaponAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -62,6 +65,8 @@ protected:
 	void TakeFirstWeapon(const FInputActionValue& Value);
 
 	void TakeSecondWeapon(const FInputActionValue& Value);
+
+	void ReloadWeapon(const FInputActionValue& Value);
 
 
 private:
@@ -123,5 +128,8 @@ public:
 	class AWeaponMaster* GetCharacterWeapon() const { return CharacterWeapon; };
 
 	class UInputMappingContext* const GetInputMapping() { return InputMapping; }
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void AudioAndRecoilIfWeaponPresent();
 	
 };

@@ -3,7 +3,7 @@
 
 #include "DoorWallBoxComponent.h"
 #include "MoveDown.h"
-#include "DefaultMainCharacter.h"
+#include "../Character/DefaultMainCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "InputMappingContext.h"
 #include "GameFramework/PlayerController.h"

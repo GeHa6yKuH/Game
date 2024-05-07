@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "InteractionInterface.h"
+#include "../../Interfaces/InteractionInterface.h"
 #include "PickupMaster.generated.h"
 
 UCLASS()

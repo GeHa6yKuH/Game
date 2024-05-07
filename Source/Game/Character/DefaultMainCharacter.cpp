@@ -3,12 +3,12 @@
 
 #include "DefaultMainCharacter.h"
 
-#include "RifleGun.h"
-#include "PickupMaster.h"
-#include "WeaponMaster.h"
-#include "GameAIController.h"
-#include "GameGameMode.h"
-#include "KillEmAllGameMode.h"
+#include "../WeaponLogic/Weapons/RifleGun.h"
+#include "../WeaponLogic/Pickup/PickupMaster.h"
+#include "../WeaponLogic/Weapons/WeaponMaster.h"
+#include "../BehaviourTree/GameAIController.h"
+#include "../GameModeAndController/GameGameMode.h"
+#include "../GameModeAndController/KillEmAllGameMode.h"
 
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
@@ -90,6 +90,8 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 
 	EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
 	EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeSecondWeapon);
+
+	EnhancedInputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ReloadWeapon);
 }
 
 }
@@ -192,19 +194,14 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 		}
 		CharacterWeaponInt = 1;
 	}
+}
 
-	// play equip animation
-	// UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
-	// if (AnimInstance)
-	// {
-	// 	UE_LOG(LogTemp, Warning, TEXT("AnimInstance found!"));
-	// 	float succ = AnimInstance->Montage_Play(PistolEquipAnimation);
-	// 	if (succ == 0)
-	// 	{
-	// 		UE_LOG(LogTemp, Error, TEXT("No successfull Montage play!"));
-	// 	}
-		
-	// }
+void ADefaultMainCharacter::ReloadWeapon(const FInputActionValue& Value)
+{
+	if (CharacterWeapon)
+	{
+		CharacterWeapon->ReloadWeapon();
+	}
 }
 
 void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)

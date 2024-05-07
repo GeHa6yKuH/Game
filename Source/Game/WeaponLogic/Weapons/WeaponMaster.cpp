@@ -2,7 +2,7 @@
 
 #include "WeaponMaster.h"
 #include "Engine/DamageEvents.h"
-#include "DefaultMainCharacter.h"
+#include "../../Character/DefaultMainCharacter.h"
 #include "TimerManager.h"
 #include "Components/StaticMeshComponent.h"
 
@@ -36,7 +36,7 @@ void AWeaponMaster::Tick(float DeltaTime)
 
 void AWeaponMaster::PullTrigger()
 {
-	if (CanFire())
+	if (CanFire() && MagazineBulletsAmount > 0)
 	{
 		APawn* OwnerPawn = Cast<APawn>(GetOwner());
 		if (OwnerPawn == nullptr)
@@ -61,7 +61,18 @@ void AWeaponMaster::PullTrigger()
 		Params.AddIgnoredActor(GetOwner());
 		FVector End = Location + Rotation.Vector() * MaxRange;
 
+		ADefaultMainCharacter* CurrentShootingMainCharacter = Cast<ADefaultMainCharacter>(GetOwner());
+
+		if (CurrentShootingMainCharacter)
+		{
+			CurrentShootingMainCharacter->AudioAndRecoilIfWeaponPresent();
+			MagazineBulletsAmount--;
+		}
+		
+
 		bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
+
+		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AWeaponMaster::ResetCooldown, Delay, false);
 
 		if(bSuccess)
 		{
@@ -77,13 +88,23 @@ void AWeaponMaster::PullTrigger()
 					return;
 				}
 				ActorHit->TakeDamage(Damage, DamageEvent, OwnerController, this);
-				GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AWeaponMaster::ResetCooldown, Delay, false);
 			}
-		} else
-		{
-			UE_LOG(LogTemp, Error, TEXT("no successful line tracing!"));
 		}
-	}	
+	}	else if (CanFire() && TotalAmountOfBullets > 0)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Please reload!"));
+	}
+	
+}
+
+void AWeaponMaster::ReloadWeapon()
+{
+	int BulletsToReload = MaximumMagazineBulletsAmount - MagazineBulletsAmount;
+	if (BulletsToReload > 0 && TotalAmountOfBullets >= BulletsToReload)
+	{
+		TotalAmountOfBullets -= BulletsToReload;
+		MagazineBulletsAmount = MaximumMagazineBulletsAmount;
+	}
 }
 
 void AWeaponMaster::ResetCooldown()
@@ -91,8 +112,12 @@ void AWeaponMaster::ResetCooldown()
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 }
 
-bool AWeaponMaster::CanFire()
+bool AWeaponMaster::CanFire() const
 {
-	return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
+	if (TimerHandle.IsValid())
+	{
+		return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
+	}
+	return true;
 }
 

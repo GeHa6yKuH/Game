@@ -24,13 +24,34 @@ public:
 
 	void PullTrigger();
 
+	void ReloadWeapon();
+
 	void ResetCooldown();
 
-	bool CanFire();
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool CanFire() const;
 
 	UStaticMeshComponent* GetWeapon() const { return Weapon; }
 
 	TEnumAsByte<WeaponType> GetWeaponType() const { return WeaponType; }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+    int GetMagazineBulletsAmount() const
+    {
+        return MagazineBulletsAmount;
+    }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+    int GetTotalAmountOfBullets() const
+    {
+        return TotalAmountOfBullets;
+    }
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+    float GetDelay() const
+    {
+        return Delay;
+    }
 
 private:
 
@@ -48,6 +69,12 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
 	int MagazineBulletsAmount;
+
+	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
+	int TotalAmountOfBullets;
+
+	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
+	int MaximumMagazineBulletsAmount;
 
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
 	TEnumAsByte<WeaponType> WeaponType;

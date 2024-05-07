@@ -2,7 +2,7 @@
 
 
 #include "BTTask_Shoot.h"
-#include "DefaultMainCharacter.h"
+#include "../Character/DefaultMainCharacter.h"
 #include "AIController.h"
 
 UBTTask_Shoot::UBTTask_Shoot()
