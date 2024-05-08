@@ -4,6 +4,7 @@
 #include "Engine/DamageEvents.h"
 #include "../../Character/DefaultMainCharacter.h"
 #include "TimerManager.h"
+#include "Math/UnrealMathUtility.h"
 #include "Components/StaticMeshComponent.h"
 
 // Sets default values
@@ -59,7 +60,7 @@ void AWeaponMaster::PullTrigger()
 		FCollisionQueryParams Params;
 		Params.AddIgnoredActor(this);
 		Params.AddIgnoredActor(GetOwner());
-		FVector End = Location + Rotation.Vector() * MaxRange;
+		FVector End = Location + (SpreadTrace(Rotation.Vector()) * MaxRange);
 
 		ADefaultMainCharacter* CurrentShootingMainCharacter = Cast<ADefaultMainCharacter>(GetOwner());
 
@@ -119,5 +120,14 @@ bool AWeaponMaster::CanFire() const
 		return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
 	}
 	return true;
+}
+
+FVector AWeaponMaster::SpreadTrace(FVector InitialVector) const
+{
+	InitialVector.X += FMath::RandRange(SpreadFrom, SpreadTo);
+	InitialVector.Y += FMath::RandRange(SpreadFrom, SpreadTo);
+	InitialVector.Z += FMath::RandRange(SpreadFrom, SpreadTo);
+
+	return InitialVector;
 }
 
