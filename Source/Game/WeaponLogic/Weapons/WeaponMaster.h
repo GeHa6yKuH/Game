@@ -53,6 +53,8 @@ public:
         return Delay;
     }
 
+	FVector SpreadTrace(FVector InitialVector) const;
+
 private:
 
 	UPROPERTY(VisibleAnyWhere)
@@ -83,6 +85,10 @@ private:
 	float Delay;
 
 	struct FTimerHandle TimerHandle;
+
+	float SpreadFrom = -0.1;
+
+	float SpreadTo = 0.1;
 
 protected:
 	// Called when the game starts or when spawned
