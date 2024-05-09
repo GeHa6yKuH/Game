@@ -13,11 +13,11 @@ APickupMaster::APickupMaster()
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
 
-	PickupItem = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PickupItem"));
-	PickupItem->SetupAttachment(Root);
+	PickupItemSK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("PickupItem"));
+	PickupItemSK->SetupAttachment(Root);
 
 	PickupRadius = CreateDefaultSubobject<USphereComponent>(TEXT("PickupRadius"));
-	PickupRadius->SetupAttachment(PickupItem);
+	PickupRadius->SetupAttachment(PickupItemSK);
 }
 
 // Called when the game starts or when spawned

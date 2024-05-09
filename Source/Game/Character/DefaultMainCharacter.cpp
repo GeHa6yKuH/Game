@@ -27,7 +27,7 @@ ADefaultMainCharacter::ADefaultMainCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
-	Mock = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Mock"));
+	Mock = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mock"));
 	Mock->SetupAttachment(GetMesh());
 	
 }
@@ -180,7 +180,7 @@ void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistol_holster"));
 		CharacterWeapon = SwitchWeapon;
 		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
-		UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+		USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 		if (WeaponMesh)
 		{
 			Mock = WeaponMesh;
@@ -201,7 +201,7 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("rifle_holster"));
 		CharacterWeapon = SwitchWeapon;
 		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Pistol_Socket"));
-		UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+		USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 		if (WeaponMesh)
 		{
 			Mock = WeaponMesh;
@@ -238,7 +238,7 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 				FName SocketName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
 				CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
 				CharacterWeapon->SetOwner(this);
-				UStaticMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+				USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 				if (WeaponMesh)
 				{
 					Mock = WeaponMesh;

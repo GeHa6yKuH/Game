@@ -24,7 +24,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	class UStaticMeshComponent* GetPickupItem() const { return PickupItem; }
+	class USkeletalMeshComponent* GetPickupItem() const { return PickupItemSK; }
 
 	virtual void Interact_Implementation(class ADefaultMainCharacter& CharacterPickingUp);
 
@@ -33,7 +33,7 @@ private:
 	USceneComponent* Root;
 
 	UPROPERTY(VisibleAnywhere)
-	class UStaticMeshComponent* PickupItem;
+	class USkeletalMeshComponent* PickupItemSK;
 
 	UPROPERTY(VisibleAnywhere)
 	class USphereComponent* PickupRadius;

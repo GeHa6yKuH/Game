@@ -116,8 +116,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 	bool isRunning;
 
-	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly)
-	class UStaticMeshComponent* Mock;
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly)
+	class USkeletalMeshComponent* Mock;
 
 	UFUNCTION(BlueprintCallable)
 	void Shoot();

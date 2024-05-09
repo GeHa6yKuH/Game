@@ -31,7 +31,7 @@ public:
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool CanFire() const;
 
-	UStaticMeshComponent* GetWeapon() const { return Weapon; }
+	USkeletalMeshComponent* GetWeapon() const { return WeaponSK; }
 
 	TEnumAsByte<WeaponType> GetWeaponType() const { return WeaponType; }
 
@@ -59,9 +59,6 @@ private:
 
 	UPROPERTY(VisibleAnyWhere)
 	USceneComponent* Root;
-
-	UPROPERTY(EditAnywhere)
-	UStaticMeshComponent* Weapon;
 
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
 	float Damage;
@@ -118,5 +115,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void WeaponStopsFiring();
+
+	UPROPERTY(EditAnywhere)
+	USkeletalMeshComponent* WeaponSK;
 
 };

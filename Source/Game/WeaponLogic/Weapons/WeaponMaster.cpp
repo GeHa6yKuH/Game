@@ -16,8 +16,8 @@ AWeaponMaster::AWeaponMaster()
 	Root = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	SetRootComponent(Root);
 
-	Weapon = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Weapon"));
-	Weapon->SetupAttachment(Root);
+	WeaponSK = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Weapon"));
+	WeaponSK->SetupAttachment(Root);
 
 }
 
