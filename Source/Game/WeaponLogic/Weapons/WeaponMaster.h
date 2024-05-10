@@ -116,7 +116,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void WeaponStopsFiring();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* WeaponSK;
 
 };
