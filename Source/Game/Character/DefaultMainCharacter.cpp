@@ -60,10 +60,12 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 	if (isRunning)
 	{
+		CanSlide = true;
 		GetCharacterMovement()->MaxWalkSpeed = Speed;
 	}
 	else
 	{
+		CanSlide = false;
 		GetCharacterMovement()->MaxWalkSpeed = 450;
 	}
 }

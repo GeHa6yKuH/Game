@@ -99,6 +99,9 @@ public:
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	class UAnimMontage* PistolEquipAnimation;
 
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	bool CanSlide = false;
+
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
 
