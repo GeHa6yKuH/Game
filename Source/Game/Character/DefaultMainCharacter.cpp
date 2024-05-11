@@ -123,10 +123,10 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::Shoot()
 {
-	if(CharacterWeapon)
+	if(CharacterWeapon && !isRunning)
 	{
 		CharacterWeapon->PullTrigger();
-		if (CharacterWeapon->GetMagazineBulletsAmount() > 0)
+		if (CharacterWeapon->GetMagazineBulletsAmount() > 0 && !CharacterWeapon->IsReloading())
 		{
 			CharacterWeapon->WeaponIsFiring();
 		}

@@ -133,5 +133,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void AudioAndRecoilIfWeaponPresent();
+
+	UPROPERTY(EditAnyWhere, category = "ADS", BlueprintReadWrite)
+	bool isAiming;
 	
 };
