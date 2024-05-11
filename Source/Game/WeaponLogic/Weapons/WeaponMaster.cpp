@@ -37,7 +37,7 @@ void AWeaponMaster::Tick(float DeltaTime)
 
 void AWeaponMaster::PullTrigger()
 {
-	if (CanFire() && MagazineBulletsAmount > 0)
+	if (CanFire() && !IsReloading() && MagazineBulletsAmount > 0)
 	{
 		APawn* OwnerPawn = Cast<APawn>(GetOwner());
 		if (OwnerPawn == nullptr)
@@ -100,17 +100,29 @@ void AWeaponMaster::PullTrigger()
 
 void AWeaponMaster::ReloadWeapon()
 {
-	int BulletsToReload = MaximumMagazineBulletsAmount - MagazineBulletsAmount;
-	if (BulletsToReload > 0 && TotalAmountOfBullets >= BulletsToReload)
+	BulletsToReload = MaximumMagazineBulletsAmount - MagazineBulletsAmount;
+	CanBeReloaded = BulletsToReload > 0 && TotalAmountOfBullets > 0;
+	if (CanBeReloaded && BulletsToReload > 0 && TotalAmountOfBullets >= BulletsToReload)
 	{
 		TotalAmountOfBullets -= BulletsToReload;
 		MagazineBulletsAmount = MaximumMagazineBulletsAmount;
+		GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &AWeaponMaster::ResetReloadCooldown, ReloadDelay, false);
+	} else if (CanBeReloaded && BulletsToReload > 0 && TotalAmountOfBullets > 0)
+	{
+		MagazineBulletsAmount += TotalAmountOfBullets;
+		TotalAmountOfBullets = 0;
+		GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &AWeaponMaster::ResetReloadCooldown, ReloadDelay, false);
 	}
 }
 
 void AWeaponMaster::ResetCooldown()
 {
 	GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}
+
+void AWeaponMaster::ResetReloadCooldown()
+{
+	GetWorld()->GetTimerManager().ClearTimer(ReloadTimerHandle);
 }
 
 bool AWeaponMaster::CanFire() const
@@ -122,11 +134,28 @@ bool AWeaponMaster::CanFire() const
 	return true;
 }
 
-FVector AWeaponMaster::SpreadTrace(FVector InitialVector) const
+bool AWeaponMaster::IsReloading() const
 {
-	InitialVector.X += FMath::RandRange(SpreadFrom, SpreadTo);
-	InitialVector.Y += FMath::RandRange(SpreadFrom, SpreadTo);
-	InitialVector.Z += FMath::RandRange(SpreadFrom, SpreadTo);
+	if (ReloadTimerHandle.IsValid())
+	{
+		return GetWorld()->GetTimerManager().IsTimerActive(ReloadTimerHandle);
+	}
+	return false;
+}
+
+FVector AWeaponMaster::SpreadTrace(FVector InitialVector)
+{
+	ADefaultMainCharacter* CurrentShootingMainCharacter = Cast<ADefaultMainCharacter>(GetOwner());
+
+	if (CurrentShootingMainCharacter)
+	{
+		AimingMultiplier = CurrentShootingMainCharacter->isAiming ? 0.1 : 1;
+		float SpreadFromWithMulti = SpreadFrom * AimingMultiplier;
+		float SpreadToWithMulti = SpreadTo * AimingMultiplier;
+		InitialVector.X += FMath::RandRange(SpreadFromWithMulti, SpreadToWithMulti);
+		InitialVector.Y += FMath::RandRange(SpreadFromWithMulti, SpreadToWithMulti);
+		InitialVector.Z += FMath::RandRange(SpreadFromWithMulti, SpreadToWithMulti);
+	}
 
 	return InitialVector;
 }

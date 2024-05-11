@@ -28,8 +28,13 @@ public:
 
 	void ResetCooldown();
 
+	void ResetReloadCooldown();
+
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	bool CanFire() const;
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool IsReloading() const;
 
 	USkeletalMeshComponent* GetWeapon() const { return WeaponSK; }
 
@@ -53,7 +58,7 @@ public:
         return Delay;
     }
 
-	FVector SpreadTrace(FVector InitialVector) const;
+	FVector SpreadTrace(FVector InitialVector);
 
 private:
 
@@ -81,11 +86,20 @@ private:
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
 	float Delay;
 
+	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
+	float ReloadDelay = 3.85;
+
 	struct FTimerHandle TimerHandle;
+
+	struct FTimerHandle ReloadTimerHandle;
 
 	float SpreadFrom = -0.1;
 
 	float SpreadTo = 0.1;
+
+	float AimingMultiplier;
+
+	int BulletsToReload = 0;
 
 protected:
 	// Called when the game starts or when spawned
@@ -109,6 +123,9 @@ public:
 
 	UPROPERTY(EditAnyWhere, category = "Recoil Controller", BlueprintReadWrite)
 	float KickupMulti = 1;
+
+	UPROPERTY(EditAnyWhere, category = "Reload", BlueprintReadWrite)
+	bool CanBeReloaded = false;
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void WeaponIsFiring();
