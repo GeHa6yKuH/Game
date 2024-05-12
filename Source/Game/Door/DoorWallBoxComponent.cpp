@@ -27,6 +27,8 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
     AActor* Actor = GetAcceptableActor();
     if (Actor)
     {
+        ADefaultMainCharacter* MainCharacter = Cast<ADefaultMainCharacter>(Actor);
+        MainCharacter->PlayAnimMontage(CardMontage);
         if (MoveDownComp->IsDoorClosed())
 		{
 			MoveDownComp->SetShouldDoorMoveDown(false);

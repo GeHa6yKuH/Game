@@ -49,6 +49,9 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	int PlayerInBoxCount = 0;
 
+	UPROPERTY(EditDefaultsOnly)
+	class UAnimMontage * CardMontage;
+
 public:
 
 	UDoorWallBoxComponent();
