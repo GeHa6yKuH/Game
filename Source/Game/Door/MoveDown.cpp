@@ -53,7 +53,7 @@ void UMoveDown::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (ShouldDoorMove && !DoorOpen)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Door is going upwards!"));
+		// UE_LOG(LogTemp, Warning, TEXT("Door is going upwards!"));
 		TargetLocation = CurrentLocation + MoveOffset;
 		float Speed = MoveOffset.Length() / MoveTime;
 		GetOwner()->SetActorLocation(FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed));
@@ -61,7 +61,7 @@ void UMoveDown::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (ShouldDoorMoveDown && !DoorClosed)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Door is closing!"));
+		// UE_LOG(LogTemp, Warning, TEXT("Door is closing!"));
 		TargetLocation = CurrentLocation - MoveOffset;
 		float Speed = MoveOffset.Length() / MoveTime;
 		GetOwner()->SetActorLocation(FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed));

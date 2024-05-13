@@ -1,6 +1,6 @@
 [
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\DefaultMainCharacter.cpp",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTService_PlayerLocation.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -8,7 +8,199 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\DefaultMainCharacter.h",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTService_PlayerLocation.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTService_PlayerLocationIfSee.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTService_PlayerLocationIfSee.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTTask_ClearBlackBoardValue.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTTask_ClearBlackBoardValue.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTTask_Shoot.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\BTTask_Shoot.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\GameAIController.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\BehaviourTree\\GameAIController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Character\\DefaultMainCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Character\\DefaultMainCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Character\\GameCharacter.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Character\\GameCharacter.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorCard.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorCard.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorTriggeringPannel.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorTriggeringPannel.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWallBoxComponent.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWallBoxComponent.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWallTriggerBox.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWallTriggerBox.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWayWall.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\DoorWayWall.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\MoveDown.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Door\\MoveDown.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -24,7 +216,7 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Game.cpp",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameD\\Game.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -32,7 +224,7 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Game.h",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameD\\Game.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -40,7 +232,7 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameCharacter.cpp",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\GameGameMode.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -48,7 +240,7 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameCharacter.h",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\GameGameMode.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -56,7 +248,7 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameGameMode.cpp",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\GamePlayerController.cpp",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
@@ -64,7 +256,167 @@
 		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
 	},
 	{
-		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameGameMode.h",
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\GamePlayerController.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\KillEmAllGameMode.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\GameModeAndController\\KillEmAllGameMode.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Interfaces\\InteractionInterface.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\Interfaces\\InteractionInterface.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Gun.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Gun.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\PickupMaster.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\PickupMaster.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\PistolPickup.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\PistolPickup.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\RiflePickup.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\RiflePickup.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\WeaponPickup.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Pickup\\WeaponPickup.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\Pistol.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\Pistol.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\RifleGun.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\RifleGun.h",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\WeaponMaster.cpp",
+		"arguments": [
+			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
+			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"
+		],
+		"directory": "C:\\Program Files\\Epic Games\\UE_5.4\\Engine\\Source"
+	},
+	{
+		"file": "C:\\UnrealProj\\Game\\Source\\Game\\WeaponLogic\\Weapons\\WeaponMaster.h",
 		"arguments": [
 			"C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.39.33519\\bin\\Hostx64\\x64\\cl.exe",
 			"@C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default\\Game.1.rsp"

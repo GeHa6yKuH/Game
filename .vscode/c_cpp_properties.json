@@ -17,10 +17,5 @@
             "compileCommands": "C:\\UnrealProj\\Game\\.vscode\\compileCommands_Default.json"
         }
     ],
-    "includePath": [
-        "${workspaceFolder}\\Intermediate\\**",
-        "${workspaceFolder}\\Plugins\\**",
-        "${workspaceFolder}\\Source\\**"
-    ],
     "version": 4
 }

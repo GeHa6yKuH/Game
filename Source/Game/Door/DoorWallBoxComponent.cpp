@@ -29,9 +29,21 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
     if (Actor)
     {
         ADefaultMainCharacter* MainCharacter = Cast<ADefaultMainCharacter>(Actor);
+        MainCharacter->SetIsPlayingAnimDoorTrue();
+        MainCharacter->HideWeapon();
+        // spawning card into player hands
+        MainCharacter->SpawnCardInHandsBeforeAnim();
+        //playing animation
         MainCharacter->PlayAnimMontage(CardMontage);
+
         FTimerHandle OpenOrCloseTimerHandle;
         GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 3.0f, false);
+
+        // removing card after anim with delay
+        FTimerHandle CardRemovingTimerHandle;
+        GetWorld()->GetTimerManager().SetTimer(CardRemovingTimerHandle, MainCharacter, &ADefaultMainCharacter::RemoveCardFromHandsAfterAnim, 3.0f, false);
+        FTimerHandle WeaponBackTimerHandle;
+        GetWorld()->GetTimerManager().SetTimer(WeaponBackTimerHandle, MainCharacter, &ADefaultMainCharacter::GetWeaponBack, 3.0f, false);
     }
 }
 

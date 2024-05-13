@@ -52,12 +52,47 @@ void ADefaultMainCharacter::BeginPlay()
 	{
 		SpawnWeapon(RifleForAI);
 	}
-
-	DoorCard = GetWorld()->SpawnActor<ADoorCard>(DoorCardClass);
-	DoorCard->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("card_socket"));
-	DoorCard->SetOwner(this);
 	
 }
+
+void ADefaultMainCharacter::SpawnCardInHandsBeforeAnim()
+{
+	if (!DoorCard)
+	{
+		DoorCard = GetWorld()->SpawnActor<ADoorCard>(DoorCardClass);
+		DoorCard->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("card_socket"));
+		DoorCard->SetOwner(this);
+	}
+}
+
+void ADefaultMainCharacter::RemoveCardFromHandsAfterAnim()
+{
+	if (DoorCard)
+	{
+		DoorCard->Destroy();
+		DoorCard = nullptr;
+	}
+}
+
+void ADefaultMainCharacter::HideWeapon()
+{
+	if (CharacterWeapon)
+	{
+		FName SocketHolsterName = CharacterWeaponInt == 0 ? TEXT("rifle_holster") : TEXT("pistol_holster");
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketHolsterName);
+	}
+}
+
+void ADefaultMainCharacter::GetWeaponBack()
+{
+	if (CharacterWeapon)
+	{
+		FName SocketFiringPoseName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketFiringPoseName);
+		SetIsPlayingAnimDoorFalse();
+	}
+}
+
 
 // Called every frame
 void ADefaultMainCharacter::Tick(float DeltaTime)

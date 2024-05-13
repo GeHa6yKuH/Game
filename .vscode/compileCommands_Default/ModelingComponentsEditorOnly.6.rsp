@@ -524,4 +524,4 @@
 /I "C:\Program Files\Epic Games\UE_5.4\Engine\Plugins\Runtime\MeshModelingToolset\Source\ModelingComponents\Public" 
 /I "C:\Program Files\Epic Games\UE_5.4\Engine\Source\ThirdParty\LibTiff\Source\Win64" 
 /I "C:\Program Files\Epic Games\UE_5.4\Engine\Source\ThirdParty\LibTiff\Source" 
-/I "C:\Program Files\Epic Games\UE_5.4\Engine\Source\ThirdParty\OpenSubdiv\Deploy\OpenSubdiv-3.5.0\include" 
+/I "C:\Program Files\Epic Games\UE_5.4\Engine\Source\ThirdParty\OpenSubdiv\Deploy\OpenSubdiv-3.6.0\include" 

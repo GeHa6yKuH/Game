@@ -11,13 +11,7 @@
 	],
 	"settings": {
 		"typescript.tsc.autoDetect": "off",
-		"npm.autoDetect": "off",
-		"files.associations": {
-			"*.rh": "cpp",
-			"__locale": "cpp",
-			"system_error": "cpp",
-			"xlocale": "cpp"
-		}
+		"npm.autoDetect": "off"
 	},
 	"extensions": {
 		"recommendations": [

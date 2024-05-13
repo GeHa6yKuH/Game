@@ -68,7 +68,6 @@ protected:
 
 	void ReloadWeapon(const FInputActionValue& Value);
 
-
 private:
 	
 	float Speed = 900;
@@ -101,6 +100,13 @@ public:
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
 	bool HasWeapon = false;
+
+	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
+	bool IsPlayingAnimDoor = false;
+
+	void SetIsPlayingAnimDoorTrue() { IsPlayingAnimDoor = true; }
+
+	void SetIsPlayingAnimDoorFalse() { IsPlayingAnimDoor = false; };
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	class UAnimMontage* PistolEquipAnimation;
@@ -143,7 +149,17 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void AudioAndRecoilIfWeaponPresent();
 
+	UFUNCTION()
+	void SpawnCardInHandsBeforeAnim();
+
+	UFUNCTION()
+	void RemoveCardFromHandsAfterAnim();
+
 	UPROPERTY(EditAnyWhere, category = "ADS", BlueprintReadWrite)
 	bool isAiming;
+
+	void HideWeapon();
+
+	void GetWeaponBack();
 	
 };

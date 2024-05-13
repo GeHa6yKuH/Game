@@ -38,7 +38,8 @@ public:
 
 	USkeletalMeshComponent* GetWeapon() const { return WeaponSK; }
 
-	TEnumAsByte<WeaponType> GetWeaponType() const { return WeaponType; }
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float GetWeaponType() const { return WeaponType; }
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
     int GetMagazineBulletsAmount() const
