@@ -160,6 +160,6 @@ public:
 
 	void HideWeapon();
 
-	void GetWeaponBack();
+
 	
 };

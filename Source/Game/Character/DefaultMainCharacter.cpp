@@ -72,6 +72,12 @@ void ADefaultMainCharacter::RemoveCardFromHandsAfterAnim()
 		DoorCard->Destroy();
 		DoorCard = nullptr;
 	}
+	if (CharacterWeapon)
+	{
+		FName SocketFiringPoseName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketFiringPoseName);
+		SetIsPlayingAnimDoorFalse();
+	}
 }
 
 void ADefaultMainCharacter::HideWeapon()
@@ -83,15 +89,7 @@ void ADefaultMainCharacter::HideWeapon()
 	}
 }
 
-void ADefaultMainCharacter::GetWeaponBack()
-{
-	if (CharacterWeapon)
-	{
-		FName SocketFiringPoseName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
-		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketFiringPoseName);
-		SetIsPlayingAnimDoorFalse();
-	}
-}
+
 
 
 // Called every frame
@@ -212,43 +210,49 @@ void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 {
-	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
-	{
-		return;
-	} else if (CharacterWeapon && PreviousWeapon)
-	{
-		AWeaponMaster* SwitchWeapon = PreviousWeapon;
-		PreviousWeapon = CharacterWeapon;
-		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistol_holster"));
-		CharacterWeapon = SwitchWeapon;
-		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
-		USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
-		if (WeaponMesh)
+	if (!IsPlayingAnimDoor)
+	{	
+		if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
 		{
-			Mock = WeaponMesh;
+			return;
+		} else if (CharacterWeapon && PreviousWeapon)
+		{
+			AWeaponMaster* SwitchWeapon = PreviousWeapon;
+			PreviousWeapon = CharacterWeapon;
+			PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistol_holster"));
+			CharacterWeapon = SwitchWeapon;
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+			if (WeaponMesh)
+			{
+				Mock = WeaponMesh;
+			}
+			CharacterWeaponInt = 0;
 		}
-		CharacterWeaponInt = 0;
 	}
 }
 
 void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 {
-	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 1)
-	{
-		return;
-	} else if (CharacterWeapon && PreviousWeapon)
-	{
-		AWeaponMaster* SwitchWeapon = PreviousWeapon;
-		PreviousWeapon = CharacterWeapon;
-		PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("rifle_holster"));
-		CharacterWeapon = SwitchWeapon;
-		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Pistol_Socket"));
-		USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
-		if (WeaponMesh)
+	if (!IsPlayingAnimDoor)
+	{ 
+		if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 1)
 		{
-			Mock = WeaponMesh;
+			return;
+		} else if (CharacterWeapon && PreviousWeapon)
+		{
+			AWeaponMaster* SwitchWeapon = PreviousWeapon;
+			PreviousWeapon = CharacterWeapon;
+			PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("rifle_holster"));
+			CharacterWeapon = SwitchWeapon;
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Pistol_Socket"));
+			USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
+			if (WeaponMesh)
+			{
+				Mock = WeaponMesh;
+			}
+			CharacterWeaponInt = 1;
 		}
-		CharacterWeaponInt = 1;
 	}
 }
 

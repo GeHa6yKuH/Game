@@ -37,13 +37,12 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
         MainCharacter->PlayAnimMontage(CardMontage);
 
         FTimerHandle OpenOrCloseTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 3.0f, false);
+        GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 2.9f, false);
 
         // removing card after anim with delay
         FTimerHandle CardRemovingTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(CardRemovingTimerHandle, MainCharacter, &ADefaultMainCharacter::RemoveCardFromHandsAfterAnim, 3.0f, false);
-        FTimerHandle WeaponBackTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(WeaponBackTimerHandle, MainCharacter, &ADefaultMainCharacter::GetWeaponBack, 3.0f, false);
+        GetWorld()->GetTimerManager().SetTimer(CardRemovingTimerHandle, MainCharacter, &ADefaultMainCharacter::RemoveCardFromHandsAfterAnim, 2.9f, false);
+     
     }
 }
 
