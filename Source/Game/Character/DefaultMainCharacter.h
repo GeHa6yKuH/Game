@@ -79,6 +79,12 @@ private:
 	UPROPERTY()
 	class AWeaponMaster* PreviousWeapon;
 
+	UPROPERTY()
+	class ADoorCard* DoorCard;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class ADoorCard> DoorCardClass;
+
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ARifleGun> RifleForAI;
 

@@ -9,6 +9,7 @@
 #include "../BehaviourTree/GameAIController.h"
 #include "../GameModeAndController/GameGameMode.h"
 #include "../GameModeAndController/KillEmAllGameMode.h"
+#include "../Door/DoorCard.h"
 
 #include "EnhancedInputSubsystems.h"
 #include "Components/InputComponent.h"
@@ -51,6 +52,10 @@ void ADefaultMainCharacter::BeginPlay()
 	{
 		SpawnWeapon(RifleForAI);
 	}
+
+	DoorCard = GetWorld()->SpawnActor<ADoorCard>(DoorCardClass);
+	DoorCard->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("card_socket"));
+	DoorCard->SetOwner(this);
 	
 }
 

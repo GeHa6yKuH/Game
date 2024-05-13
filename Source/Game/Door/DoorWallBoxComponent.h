@@ -61,4 +61,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetMoveDownComp(class UMoveDown* NewMoveDownComp);
 
+	UFUNCTION(BlueprintCallable)
+	void CloseOrOpenTheDoor();
+
 };

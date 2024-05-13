@@ -8,6 +8,7 @@
 #include "InputMappingContext.h"
 #include "GameFramework/PlayerController.h"
 #include "Blueprint/UserWidget.h"
+#include "TimerManager.h"
 
 UDoorWallBoxComponent::UDoorWallBoxComponent()
 {
@@ -29,7 +30,14 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
     {
         ADefaultMainCharacter* MainCharacter = Cast<ADefaultMainCharacter>(Actor);
         MainCharacter->PlayAnimMontage(CardMontage);
-        if (MoveDownComp->IsDoorClosed())
+        FTimerHandle OpenOrCloseTimerHandle;
+        GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 3.0f, false);
+    }
+}
+
+void UDoorWallBoxComponent::CloseOrOpenTheDoor()
+{
+    if (MoveDownComp->IsDoorClosed())
 		{
 			MoveDownComp->SetShouldDoorMoveDown(false);
 			MoveDownComp->SetShouldDoorMove(true);
@@ -38,7 +46,6 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
 			MoveDownComp->SetShouldDoorMove(false);
 			MoveDownComp->SetShouldDoorMoveDown(true);
 		}
-    }
 }
 
 AActor* UDoorWallBoxComponent::GetAcceptableActor()
