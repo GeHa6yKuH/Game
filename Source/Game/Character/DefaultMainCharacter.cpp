@@ -6,6 +6,7 @@
 #include "../WeaponLogic/Weapons/RifleGun.h"
 #include "../WeaponLogic/Pickup/PickupMaster.h"
 #include "../WeaponLogic/Weapons/WeaponMaster.h"
+#include "../WeaponLogic/Grenade.h"
 #include "../BehaviourTree/GameAIController.h"
 #include "../GameModeAndController/GameGameMode.h"
 #include "../GameModeAndController/KillEmAllGameMode.h"
@@ -132,6 +133,8 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
 	EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeSecondWeapon);
 
+	EnhancedInputComp->BindAction(TakeGrenadeAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeGrenade);
+
 	EnhancedInputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ReloadWeapon);
 }
 
@@ -214,7 +217,12 @@ void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 	{	
 		if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
 		{
-			return;
+			if (!GrenadeEquipped)
+			{
+				return;
+			}
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			DestroyGrenadeIfPresent();
 		} else if (CharacterWeapon && PreviousWeapon)
 		{
 			AWeaponMaster* SwitchWeapon = PreviousWeapon;
@@ -238,7 +246,12 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 	{ 
 		if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 1)
 		{
-			return;
+			if (!GrenadeEquipped)
+			{
+				return;
+			}
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Pistol_Socket"));
+			DestroyGrenadeIfPresent();
 		} else if (CharacterWeapon && PreviousWeapon)
 		{
 			AWeaponMaster* SwitchWeapon = PreviousWeapon;
@@ -253,6 +266,28 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 			}
 			CharacterWeaponInt = 1;
 		}
+	}
+}
+
+void ADefaultMainCharacter::TakeGrenade(const FInputActionValue& Value)
+{
+	if (!IsPlayingAnimDoor && GrenadeClass && !Grenade)
+	{
+		HideWeapon();
+		Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeClass);
+		Grenade->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Grenade"));
+		Grenade->SetOwner(this);
+		GrenadeEquipped = true;
+	}
+}
+
+void ADefaultMainCharacter::DestroyGrenadeIfPresent()
+{
+	if (Grenade)
+	{
+		Grenade->Destroy();
+		Grenade = nullptr;
+		GrenadeEquipped = false;
 	}
 }
 

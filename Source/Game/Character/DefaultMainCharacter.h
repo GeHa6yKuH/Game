@@ -52,6 +52,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* ReloadWeaponAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* TakeGrenadeAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -66,6 +69,8 @@ protected:
 
 	void TakeSecondWeapon(const FInputActionValue& Value);
 
+	void TakeGrenade(const FInputActionValue& Value);
+
 	void ReloadWeapon(const FInputActionValue& Value);
 
 private:
@@ -79,10 +84,16 @@ private:
 	class AWeaponMaster* PreviousWeapon;
 
 	UPROPERTY()
+	class AGrenade* Grenade;
+
+	UPROPERTY()
 	class ADoorCard* DoorCard;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ADoorCard> DoorCardClass;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<class AGrenade> GrenadeClass;
 
 	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ARifleGun> RifleForAI;
@@ -119,6 +130,9 @@ public:
 
 	UFUNCTION(BlueprintPure)
 	float GetHPPercent() const;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool GrenadeEquipped = false;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -160,6 +174,6 @@ public:
 
 	void HideWeapon();
 
-
+	void DestroyGrenadeIfPresent();
 	
 };
