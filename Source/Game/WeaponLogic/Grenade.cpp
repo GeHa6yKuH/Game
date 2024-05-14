@@ -2,6 +2,7 @@
 
 
 #include "./Grenade.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 AGrenade::AGrenade()
@@ -9,8 +10,14 @@ AGrenade::AGrenade()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	RootScene = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
+	SetRootComponent(RootScene);
+
+	Sphere = CreateDefaultSubobject<USphereComponent>(TEXT("Sphere"));
+	Sphere->SetupAttachment(RootScene);
+
 	Grenade = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Grenade"));
-	Grenade->SetupAttachment(RootComponent);
+	Grenade->SetupAttachment(Sphere);
 }
 
 // Called when the game starts or when spawned
