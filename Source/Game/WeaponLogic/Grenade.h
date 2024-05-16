@@ -20,11 +20,18 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+
+	UPROPERTY(EditAnyWhere)
+	USceneComponent* RootScene;
+
 	UPROPERTY(EditAnyWhere)
 	UStaticMeshComponent* Grenade;
 
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadOnly)
+	class USphereComponent* Sphere;
 
 };
