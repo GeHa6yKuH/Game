@@ -31,7 +31,7 @@ private:
 	bool ShouldDoorMoveDown = false;
 
 	UPROPERTY(EditAnywhere)
-	FVector MoveOffset;
+	FVector MoveOffset; 
 
 	UPROPERTY(EditAnywhere)
 	float MoveTime = 4.0f;
@@ -72,5 +72,8 @@ public:
 
 	UFUNCTION()
 	void CloseDoor() { SetShouldDoorMoveDown(true); };
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FVector GetDoorOpenPosition() const { return DoorOpenPosition; }
 
 };

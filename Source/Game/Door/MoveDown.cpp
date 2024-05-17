@@ -22,7 +22,7 @@ void UMoveDown::BeginPlay()
 
 	OriginalLocation = GetOwner()->GetActorLocation();
 	
-	DoorOpenPosition = OriginalLocation + FVector(0.f, 0.f, 400.f);
+	DoorOpenPosition = OriginalLocation + MoveOffset;
 	DoorClosedPosition = OriginalLocation;
 
 }
