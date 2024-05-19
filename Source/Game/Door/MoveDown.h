@@ -48,6 +48,15 @@ private:
 	UPROPERTY(EditAnywhere)
 	FVector DoorClosedPosition;
 
+	UPROPERTY(EditAnywhere)
+	bool MovableOnXAxis = false;
+
+	UPROPERTY(EditAnywhere)
+	bool MovableOnYAxis = false;
+
+	UPROPERTY(EditAnywhere)
+	bool MovableOnZAxis = false;
+
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;

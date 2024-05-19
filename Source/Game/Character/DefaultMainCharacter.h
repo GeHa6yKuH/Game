@@ -158,6 +158,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	class AWeaponMaster* GetCharacterWeapon() const { return CharacterWeapon; };
 
+	UFUNCTION(BlueprintCallable)
+	class AGrenade* GetGrenade() const { return Grenade; };
+
 	class UInputMappingContext* const GetInputMapping() { return InputMapping; }
 
 	UFUNCTION(BlueprintImplementableEvent)

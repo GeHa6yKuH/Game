@@ -33,9 +33,20 @@ void UMoveDown::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	DoorOpen = GetOwner()->GetActorLocation().Z >= DoorOpenPosition.Z;
-	DoorClosed = GetOwner()->GetActorLocation().Z <= DoorClosedPosition.Z;
-
+	if (MovableOnXAxis)
+	{
+		DoorOpen = GetOwner()->GetActorLocation().X >= DoorOpenPosition.X;
+		DoorClosed = GetOwner()->GetActorLocation().X <= DoorClosedPosition.X;
+	} else if (MovableOnYAxis)
+	{
+		DoorOpen = GetOwner()->GetActorLocation().Y >= DoorOpenPosition.Y;
+		DoorClosed = GetOwner()->GetActorLocation().Y <= DoorClosedPosition.Y;
+	} else if (MovableOnZAxis)
+	{
+		DoorOpen = GetOwner()->GetActorLocation().Z >= DoorOpenPosition.Z;
+		DoorClosed = GetOwner()->GetActorLocation().Z <= DoorClosedPosition.Z;
+	}
+	
 	if (DoorOpen)
 	{
 		SetShouldDoorMove(false);

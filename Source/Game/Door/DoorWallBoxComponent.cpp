@@ -28,22 +28,38 @@ void UDoorWallBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, 
     AActor* Actor = GetAcceptableActor();
     if (Actor)
     {
-        ADefaultMainCharacter* MainCharacter = Cast<ADefaultMainCharacter>(Actor);
-        MainCharacter->SetIsPlayingAnimDoorTrue();
-        MainCharacter->HideWeapon();
-        // spawning card into player hands
-        MainCharacter->SpawnCardInHandsBeforeAnim();
-        //playing animation
-        MainCharacter->PlayAnimMontage(CardMontage);
+        MainCharacter = Cast<ADefaultMainCharacter>(Actor);
+        if (MainCharacter)
+        {
+            PlayerController = Cast<APlayerController>(MainCharacter->GetController());
+            MainCharacter->DisableInput(PlayerController);
+            MainCharacter->SetIsPlayingAnimDoorTrue();
+            MainCharacter->HideWeapon();
+            // spawning card into player hands
+            MainCharacter->SpawnCardInHandsBeforeAnim();
+            //playing animation
+            MainCharacter->PlayAnimMontage(CardMontage);
 
-        FTimerHandle OpenOrCloseTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 2.9f, false);
+            FTimerHandle OpenOrCloseTimerHandle;
+            GetWorld()->GetTimerManager().SetTimer(OpenOrCloseTimerHandle, this, &UDoorWallBoxComponent::CloseOrOpenTheDoor, 2.9f, false);
 
-        // removing card after anim with delay
-        FTimerHandle CardRemovingTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(CardRemovingTimerHandle, MainCharacter, &ADefaultMainCharacter::RemoveCardFromHandsAfterAnim, 2.9f, false);
-     
+            FTimerHandle InputHandlingTimerHandle;
+            GetWorld()->GetTimerManager().SetTimer(InputHandlingTimerHandle, this, &UDoorWallBoxComponent::EnablePhysicsOnCapturedActor, 2.9f, false);
+
+            // removing card after anim with delay
+            FTimerHandle CardRemovingTimerHandle;
+            GetWorld()->GetTimerManager().SetTimer(CardRemovingTimerHandle, MainCharacter, &ADefaultMainCharacter::RemoveCardFromHandsAfterAnim, 2.9f, false);
+        }
     }
+}
+
+void UDoorWallBoxComponent::EnablePhysicsOnCapturedActor()
+{
+    if (MainCharacter && PlayerController)
+    {
+        MainCharacter->EnableInput(PlayerController);
+    }
+    
 }
 
 void UDoorWallBoxComponent::CloseOrOpenTheDoor()
@@ -70,17 +86,17 @@ AActor* UDoorWallBoxComponent::GetAcceptableActor()
     {
         if (Actor && Actor->IsA(ADefaultMainCharacter::StaticClass()))
         {
-            ADefaultMainCharacter* MainCharacter = Cast<ADefaultMainCharacter>(Actor);
-            if (MainCharacter)
+            ADefaultMainCharacter* MainCharacterActor = Cast<ADefaultMainCharacter>(Actor);
+            if (MainCharacterActor)
             {
-                if (APlayerController* PlayerController = MainCharacter->GetController<APlayerController>())
+                if (APlayerController* ActorPlayerController = MainCharacterActor->GetController<APlayerController>())
                 {
                     IsPlayerInBox = true; // Player is in the box
 
                     // Handle open widget
                     if (MoveDownComp && !OpenWidgetAdded && MoveDownComp->IsDoorClosed())
                     {
-                        DoorWidgetScreen = CreateWidget(MainCharacter->GetController<APlayerController>(), DoorInteractWidgetClass);
+                        DoorWidgetScreen = CreateWidget(ActorPlayerController, DoorInteractWidgetClass);
                         if (DoorWidgetScreen)
                         {
                             DoorWidgetScreen->AddToViewport();
@@ -96,7 +112,7 @@ AActor* UDoorWallBoxComponent::GetAcceptableActor()
                     // Handle close widget
                     if (MoveDownComp && !CloseWidgetAdded && MoveDownComp->IsDoorOpen())
                     {
-                        DoorCloseWidgetScreen = CreateWidget(MainCharacter->GetController<APlayerController>(), DoorInteractCloseWidgetClass);
+                        DoorCloseWidgetScreen = CreateWidget(ActorPlayerController, DoorInteractCloseWidgetClass);
                         if (DoorCloseWidgetScreen)
                         {
                             DoorCloseWidgetScreen->AddToViewport();
@@ -110,7 +126,7 @@ AActor* UDoorWallBoxComponent::GetAcceptableActor()
                     }
 
                     // Check for key press
-                    if (PlayerController->IsInputKeyDown(FKey("F")))
+                    if (ActorPlayerController->IsInputKeyDown(FKey("F")))
                     {
                         return Actor;
                     }

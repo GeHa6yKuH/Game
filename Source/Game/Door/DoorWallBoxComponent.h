@@ -52,6 +52,10 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	class UAnimMontage * CardMontage;
 
+	class APlayerController* PlayerController;
+
+	class ADefaultMainCharacter* MainCharacter;
+
 public:
 
 	UDoorWallBoxComponent();
@@ -63,5 +67,8 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CloseOrOpenTheDoor();
+
+	UFUNCTION()
+	void EnablePhysicsOnCapturedActor();
 
 };
