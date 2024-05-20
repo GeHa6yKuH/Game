@@ -96,7 +96,6 @@ void ADefaultMainCharacter::HideWeapon()
 // Called every frame
 void ADefaultMainCharacter::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
 	if (isRunning)
 	{
 		CanSlide = true;
@@ -355,22 +354,26 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 
 		if(IsDead())
 		{
-			AGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameGameMode>();
-			if (GameMode)
-			{
-				GameMode->PawnKilled(this);
-			} else
-			{
-				UE_LOG(LogTemp, Error, TEXT("error no gamemode found!"));
-			}
-			
-
-			UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
-			DetachFromControllerPendingDestroy();
-			GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			GetMesh()->SetSimulatePhysics(true);
+			Die();
 		}
 	}
 
 	return DamageApplied;
+}
+
+void ADefaultMainCharacter::Die()
+{
+	AGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameGameMode>();
+	if (GameMode)
+	{
+		GameMode->PawnKilled(this);
+	} else
+	{
+		UE_LOG(LogTemp, Error, TEXT("error no gamemode found!"));
+	}
+
+	UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
+	DetachFromControllerPendingDestroy();
+	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetMesh()->SetSimulatePhysics(true);
 }

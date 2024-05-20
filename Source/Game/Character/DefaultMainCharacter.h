@@ -178,5 +178,8 @@ public:
 	void HideWeapon();
 
 	void DestroyGrenadeIfPresent();
+
+	UFUNCTION()
+	void Die();
 	
 };

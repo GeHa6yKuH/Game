@@ -27,11 +27,31 @@ private:
 	UPROPERTY(EditAnyWhere)
 	UStaticMeshComponent* Grenade;
 
+	UPROPERTY(EditAnyWhere)
+	float ExplosionRadius = 700.f;
+
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypes;
+
+	TArray<AActor*> ActorsToIgnore;
+
+	FVector ExplosionLocation;
+
+	TArray<AActor*> ActorsInExplosionRadius;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadOnly)
 	class USphereComponent* Sphere;
+
+	UFUNCTION(BlueprintCallable)
+	bool Explode();
+
+	UFUNCTION(BlueprintCallable)
+	bool GetOverlappingActorsInRadiusOfExplosion();
+
+	UFUNCTION(BlueprintCallable)
+	bool ApplyForceToOverlappingActors();
 
 };

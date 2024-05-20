@@ -78,7 +78,7 @@ void AWeaponMaster::PullTrigger()
 		if(bSuccess)
 		{
 			FVector ShotDirection = -Rotation.Vector();
-			DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true, DebugLifeTime);
+			// DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true, DebugLifeTime);
 
 			FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
 			AActor* ActorHit = HitResult.GetActor();

@@ -3,6 +3,10 @@
 
 #include "./Grenade.h"
 #include "Components/SphereComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Character.h"
+#include "../Character/DefaultMainCharacter.h"
 
 // Sets default values
 AGrenade::AGrenade()
@@ -34,3 +38,80 @@ void AGrenade::Tick(float DeltaTime)
 
 }
 
+bool AGrenade::Explode()
+{
+	if (this)
+	{
+		GetOverlappingActorsInRadiusOfExplosion();
+		ApplyForceToOverlappingActors();
+		Destroy();
+	}
+	return true;
+}
+
+bool AGrenade::GetOverlappingActorsInRadiusOfExplosion()
+{
+	ExplosionLocation = Sphere->GetComponentLocation();
+
+	bool OverlappingFound = UKismetSystemLibrary::SphereOverlapActors(
+		this,
+		ExplosionLocation,
+		ExplosionRadius,
+		ObjectTypes,
+		APawn::StaticClass(),
+		ActorsToIgnore,
+		ActorsInExplosionRadius
+	);
+
+	UE_LOG(LogTemp, Warning, TEXT("OverlappingFound is %s"), OverlappingFound ? TEXT("true") : TEXT("false"));
+
+	return true;
+}
+
+bool AGrenade::ApplyForceToOverlappingActors()
+{
+	if (!ActorsInExplosionRadius.IsEmpty())
+	{
+			for (AActor* Actor : ActorsInExplosionRadius)
+			{
+				APawn* Pawn = Cast<APawn>(Actor);
+				if (Pawn && Pawn->GetMovementComponent())
+				{
+					// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
+					// if (PrimitiveComponent)
+					// {
+					// 	PrimitiveComponent->SetSimulatePhysics(true);
+					// }
+
+					// ACharacter* Character = Cast<ACharacter>(Pawn);
+					// if (Character)
+					// {
+					// 	Character->GetMesh()->SetSimulatePhysics(true);
+					// }
+
+
+
+					// UCharacterMovementComponent* CharacterMovementComp = Cast<UCharacterMovementComponent>(Pawn->GetMovementComponent());
+					
+					// if (CharacterMovementComp)
+					// {
+					// 	FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
+					// 	Direction.Normalize();
+
+					// 	float ForceMagnitude = 20000.f;
+					// 	CharacterMovementComp->AddForce(Direction * ForceMagnitude);
+					// 	UE_LOG(LogTemp, Warning, TEXT("Force added to: %s"), *Pawn->GetName());
+					// }
+
+
+					ADefaultMainCharacter* DefCharacter = Cast<ADefaultMainCharacter>(Pawn);
+					if (DefCharacter)
+					{
+						DefCharacter->Die();
+					}
+					
+				}
+			}
+	}
+	return true;
+}
