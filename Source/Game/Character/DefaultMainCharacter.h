@@ -104,6 +104,9 @@ private:
 	UPROPERTY(VisibleAnyWhere)
 	float HP;
 
+	UPROPERTY(VisibleAnyWhere)
+	FRotator NormalCharacterRotation;
+
 public:
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)

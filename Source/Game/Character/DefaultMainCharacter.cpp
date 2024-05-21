@@ -41,6 +41,8 @@ void ADefaultMainCharacter::BeginPlay()
 	
 	HP = MaxHP;
 
+	NormalCharacterRotation = FRotator(0.000001f, 0.000001f, 180.f);
+
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
@@ -106,6 +108,11 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 		CanSlide = false;
 		GetCharacterMovement()->MaxWalkSpeed = 450;
 	}
+
+	// if (GetActorRotation().Roll != NormalCharacterRotation.Roll)
+	// {
+	// 	SetActorRotation(FRotator(GetActorRotation().Pitch, GetActorRotation().Yaw, NormalCharacterRotation.Roll));
+	// }
 }
 
 // Called to bind functionality to input

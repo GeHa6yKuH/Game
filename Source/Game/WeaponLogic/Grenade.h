@@ -38,6 +38,8 @@ private:
 
 	TArray<AActor*> ActorsInExplosionRadius;
 
+	bool IsExploding = false;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -53,5 +55,11 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	bool ApplyForceToOverlappingActors();
+
+	UFUNCTION(BlueprintCallable)
+	void ReturnActorsToNormalState();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	bool GetIsExploding() const { return IsExploding; };
 
 };

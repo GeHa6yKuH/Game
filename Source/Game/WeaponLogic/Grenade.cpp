@@ -7,6 +7,8 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/Character.h"
 #include "../Character/DefaultMainCharacter.h"
+#include "Components/CapsuleComponent.h"
+#include "DrawDebugHelpers.h"
 
 // Sets default values
 AGrenade::AGrenade()
@@ -36,6 +38,10 @@ void AGrenade::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (IsExploding)
+	{
+		ApplyForceToOverlappingActors();
+	}
 }
 
 bool AGrenade::Explode()
@@ -43,8 +49,16 @@ bool AGrenade::Explode()
 	if (this)
 	{
 		GetOverlappingActorsInRadiusOfExplosion();
-		ApplyForceToOverlappingActors();
-		Destroy();
+		IsExploding = true;
+		// Destroy();
+		if (Grenade)
+		{
+			Grenade->SetVisibility(false);
+			Grenade->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
+		
+		FTimerHandle AfterExplosionTimerHandle;
+        GetWorld()->GetTimerManager().SetTimer(AfterExplosionTimerHandle, this, &AGrenade::ReturnActorsToNormalState, 7.f, false);
 	}
 	return true;
 }
@@ -52,6 +66,16 @@ bool AGrenade::Explode()
 bool AGrenade::GetOverlappingActorsInRadiusOfExplosion()
 {
 	ExplosionLocation = Sphere->GetComponentLocation();
+
+	DrawDebugSphere(
+		GetWorld(),
+		ExplosionLocation,
+		ExplosionRadius,
+		30,
+		FColor::Emerald,
+		true,
+		3.f
+	);
 
 	bool OverlappingFound = UKismetSystemLibrary::SphereOverlapActors(
 		this,
@@ -72,46 +96,61 @@ bool AGrenade::ApplyForceToOverlappingActors()
 {
 	if (!ActorsInExplosionRadius.IsEmpty())
 	{
-			for (AActor* Actor : ActorsInExplosionRadius)
+		for (AActor* Actor : ActorsInExplosionRadius)
+		{
+			APawn* Pawn = Cast<APawn>(Actor);
+			if (Pawn)
 			{
-				APawn* Pawn = Cast<APawn>(Actor);
-				if (Pawn && Pawn->GetMovementComponent())
+				FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
+				Direction.Normalize();
+				float ForceMagnitude = 30000.f;
+				// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
+				// if (PrimitiveComponent)
+				// {
+				// 	PrimitiveComponent->SetSimulatePhysics(true);
+				// }
+				ACharacter* Character = Cast<ACharacter>(Pawn);
+				if (Character)
 				{
-					// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
-					// if (PrimitiveComponent)
-					// {
-					// 	PrimitiveComponent->SetSimulatePhysics(true);
-					// }
-
-					// ACharacter* Character = Cast<ACharacter>(Pawn);
-					// if (Character)
-					// {
-					// 	Character->GetMesh()->SetSimulatePhysics(true);
-					// }
-
-
-
-					// UCharacterMovementComponent* CharacterMovementComp = Cast<UCharacterMovementComponent>(Pawn->GetMovementComponent());
-					
-					// if (CharacterMovementComp)
-					// {
-					// 	FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
-					// 	Direction.Normalize();
-
-					// 	float ForceMagnitude = 20000.f;
-					// 	CharacterMovementComp->AddForce(Direction * ForceMagnitude);
-					// 	UE_LOG(LogTemp, Warning, TEXT("Force added to: %s"), *Pawn->GetName());
-					// }
-
-
-					ADefaultMainCharacter* DefCharacter = Cast<ADefaultMainCharacter>(Pawn);
-					if (DefCharacter)
+					if (Character->GetMesh())
 					{
-						DefCharacter->Die();
+						Character->GetMesh()->SetSimulatePhysics(true);
 					}
-					
+					if (Character->GetMesh())
+					{
+						Character->GetMesh()->AddForce(Direction * ForceMagnitude);
+					}
 				}
-			}
+			}	
+		}
 	}
 	return true;
+}
+
+void AGrenade::ReturnActorsToNormalState()
+{
+	Destroy();
+	if (!ActorsInExplosionRadius.IsEmpty())
+	{
+		for (AActor* Actor : ActorsInExplosionRadius)
+		{
+			APawn* Pawn = Cast<APawn>(Actor);
+			if (Pawn)
+			{
+				// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
+				// if (PrimitiveComponent)
+				// {
+				// 	PrimitiveComponent->SetSimulatePhysics(false);
+				// }
+				ACharacter* Character = Cast<ACharacter>(Pawn);
+				if (Character)
+				{
+					if (Character->GetMesh())
+					{
+						Character->GetMesh()->SetSimulatePhysics(false);
+					}
+				}
+			}	
+		}
+	}
 }
