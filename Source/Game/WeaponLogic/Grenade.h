@@ -40,6 +40,14 @@ private:
 
 	bool IsExploding = false;
 
+	TMap<class ACharacter*, FRotator> OriginalRotations;
+
+	TMap<ACharacter*, FVector> OriginalPositions;
+
+	int32 ActorsInExplosionRadiusSize;
+
+	int32 ActorsInExplosionRadiusCount = 0;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

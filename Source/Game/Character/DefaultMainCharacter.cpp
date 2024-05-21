@@ -41,7 +41,7 @@ void ADefaultMainCharacter::BeginPlay()
 	
 	HP = MaxHP;
 
-	NormalCharacterRotation = FRotator(0.000001f, 0.000001f, 180.f);
+	NormalCharacterRotation = GetActorRotation();
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
 	{
@@ -92,9 +92,6 @@ void ADefaultMainCharacter::HideWeapon()
 	}
 }
 
-
-
-
 // Called every frame
 void ADefaultMainCharacter::Tick(float DeltaTime)
 {
@@ -108,11 +105,6 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 		CanSlide = false;
 		GetCharacterMovement()->MaxWalkSpeed = 450;
 	}
-
-	// if (GetActorRotation().Roll != NormalCharacterRotation.Roll)
-	// {
-	// 	SetActorRotation(FRotator(GetActorRotation().Pitch, GetActorRotation().Yaw, NormalCharacterRotation.Roll));
-	// }
 }
 
 // Called to bind functionality to input

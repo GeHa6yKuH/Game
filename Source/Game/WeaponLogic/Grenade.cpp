@@ -9,6 +9,7 @@
 #include "../Character/DefaultMainCharacter.h"
 #include "Components/CapsuleComponent.h"
 #include "DrawDebugHelpers.h"
+#include "Animation/AnimInstance.h"
 
 // Sets default values
 AGrenade::AGrenade()
@@ -96,6 +97,7 @@ bool AGrenade::ApplyForceToOverlappingActors()
 {
 	if (!ActorsInExplosionRadius.IsEmpty())
 	{
+		ActorsInExplosionRadiusSize = ActorsInExplosionRadius.Num();
 		for (AActor* Actor : ActorsInExplosionRadius)
 		{
 			APawn* Pawn = Cast<APawn>(Actor);
@@ -104,20 +106,34 @@ bool AGrenade::ApplyForceToOverlappingActors()
 				FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
 				Direction.Normalize();
 				float ForceMagnitude = 30000.f;
-				// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
-				// if (PrimitiveComponent)
-				// {
-				// 	PrimitiveComponent->SetSimulatePhysics(true);
-				// }
+
 				ACharacter* Character = Cast<ACharacter>(Pawn);
 				if (Character)
 				{
 					if (Character->GetMesh())
 					{
-						Character->GetMesh()->SetSimulatePhysics(true);
-					}
-					if (Character->GetMesh())
-					{
+						if (ActorsInExplosionRadiusCount < ActorsInExplosionRadiusSize)
+						{
+
+							UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
+							if (AnimInstance)
+							{
+								AnimInstance->StopAllMontages(0.0f);
+							}
+
+							FRotator Rotation = Character->GetActorRotation();
+							FVector Location = Character->GetActorLocation();
+
+							OriginalRotations.Add(Character, Rotation);
+							OriginalPositions.Add(Character, Location);
+
+							UE_LOG(LogTemp, Warning, TEXT("Original rotation of the character: %s"), *Rotation.ToString());
+							UE_LOG(LogTemp, Warning, TEXT("Original location of the character: %s"), *Location.ToString());
+
+							Character->GetMesh()->SetSimulatePhysics(true);
+							ActorsInExplosionRadiusCount++;
+						}
+						
 						Character->GetMesh()->AddForce(Direction * ForceMagnitude);
 					}
 				}
@@ -137,20 +153,27 @@ void AGrenade::ReturnActorsToNormalState()
 			APawn* Pawn = Cast<APawn>(Actor);
 			if (Pawn)
 			{
-				// UPrimitiveComponent* PrimitiveComponent = Cast<UPrimitiveComponent>(Pawn->GetRootComponent());
-				// if (PrimitiveComponent)
-				// {
-				// 	PrimitiveComponent->SetSimulatePhysics(false);
-				// }
 				ACharacter* Character = Cast<ACharacter>(Pawn);
 				if (Character)
 				{
 					if (Character->GetMesh())
 					{
 						Character->GetMesh()->SetSimulatePhysics(false);
+
+						if (OriginalRotations.Contains(Character))
+						{
+							Character->SetActorRotation(OriginalRotations[Character]);
+							UE_LOG(LogTemp, Warning, TEXT("set actor rotation back to %s"), *OriginalRotations[Character].ToString());
+						}
+						if (OriginalPositions.Contains(Character))
+						{
+							Character->SetActorLocation(OriginalPositions[Character]);
+							UE_LOG(LogTemp, Warning, TEXT("set actor location back to %s"), *OriginalPositions[Character].ToString());
+						}
 					}
 				}
 			}	
 		}
 	}
 }
+
