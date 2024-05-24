@@ -128,11 +128,16 @@ void AWeaponMaster::ResetReloadCooldown()
 
 bool AWeaponMaster::CanFire() const
 {
-	if (TimerHandle.IsValid())
+	ADefaultMainCharacter* CurrentShootingMainCharacter = Cast<ADefaultMainCharacter>(GetOwner());
+	if (CurrentShootingMainCharacter)
 	{
-		return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle);
+		if (TimerHandle.IsValid())
+		{
+			return !GetWorld()->GetTimerManager().IsTimerActive(TimerHandle) && !CurrentShootingMainCharacter->GrenadeEquipped;
+		}
+		return !CurrentShootingMainCharacter->GrenadeEquipped;
 	}
-	return true;
+	return false;
 }
 
 bool AWeaponMaster::IsReloading() const

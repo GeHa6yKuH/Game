@@ -55,6 +55,9 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* TakeGrenadeAction;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* SetGrenadeSpeedAction;
+
 	void Move(const FInputActionValue& Value);
 
 	void Look(const FInputActionValue& Value);
@@ -73,9 +76,14 @@ protected:
 
 	void ReloadWeapon(const FInputActionValue& Value);
 
+	void SetGrenadeSpeed(const FInputActionValue& Value);
+
 private:
 	
-	float Speed = 900;
+	float Speed = 900.f;
+
+	UPROPERTY(EditDefaultsOnly)
+	float GrenadeThrowSpeed = 1500.f;
 
 	UPROPERTY()
 	class AWeaponMaster* CharacterWeapon;
@@ -127,6 +135,9 @@ public:
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	bool CanSlide = false;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	bool IsSliding = false;
 
 	UFUNCTION(BlueprintPure)
 	bool IsDead() const;
@@ -184,5 +195,8 @@ public:
 
 	UFUNCTION()
 	void Die();
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	float GetGrenadeThrowSpeed() const { return GrenadeThrowSpeed; }
 	
 };

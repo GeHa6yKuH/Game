@@ -113,29 +113,38 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	if (UEnhancedInputComponent* EnhancedInputComp = CastChecked<UEnhancedInputComponent>(PlayerInputComponent))
-{
-	EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Move);
+	{
+		EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Move);
 
-	EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Look);
+		EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Look);
 
-	EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
+		EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ACharacter::Jump);
 
-	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::StartRunning);
-	EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
+		EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::StartRunning);
+		EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopRunning);
 
-	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
-	EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopShooting);
+		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
+		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopShooting);
 
-	EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
+		EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
 
-	EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
-	EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeSecondWeapon);
+		EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
+		EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeSecondWeapon);
 
-	EnhancedInputComp->BindAction(TakeGrenadeAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeGrenade);
+		EnhancedInputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ReloadWeapon);
 
-	EnhancedInputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ReloadWeapon);
+		EnhancedInputComp->BindAction(TakeGrenadeAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeGrenade);
+
+		EnhancedInputComp->BindAction(SetGrenadeSpeedAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::SetGrenadeSpeed);
+	}
 }
 
+void ADefaultMainCharacter::SetGrenadeSpeed(const FInputActionValue& Value)
+{
+	if (GrenadeEquipped && isAiming)
+	{
+		GrenadeThrowSpeed += Value.Get<float>() * 50;
+	}
 }
 
 void ADefaultMainCharacter::Move(const FInputActionValue& Value)
@@ -204,6 +213,7 @@ void ADefaultMainCharacter::Interact(const FInputActionValue& Value)
 		APickupMaster* OverlappingPickupMaster = Cast<APickupMaster>(OverlappingActors[0]);
 		if (OverlappingPickupMaster)
 		{
+			DestroyGrenadeIfPresent();
 			OverlappingPickupMaster->Interact_Implementation(*this);
 		} else { UE_LOG(LogTemp, Error, TEXT("Unable to cast to PickupMaster!")); }
 	} else { UE_LOG(LogTemp, Error, TEXT("No Overlapping Actors found!")); }
@@ -234,6 +244,7 @@ void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 				Mock = WeaponMesh;
 			}
 			CharacterWeaponInt = 0;
+			DestroyGrenadeIfPresent();
 		}
 	}
 }
@@ -263,6 +274,7 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 				Mock = WeaponMesh;
 			}
 			CharacterWeaponInt = 1;
+			DestroyGrenadeIfPresent();
 		}
 	}
 }
