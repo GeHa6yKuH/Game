@@ -48,6 +48,10 @@ private:
 
 	int32 ActorsInExplosionRadiusCount = 0;
 
+	FVector CharacterMeshLocalLocation{-30.f, -6.386468, -87.289543};
+
+    FRotator CharacterMeshLocalRotation{0.f, -90.f, 0.f};
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

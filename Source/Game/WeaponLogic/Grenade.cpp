@@ -10,6 +10,7 @@
 #include "Components/CapsuleComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Animation/AnimInstance.h"
+#include "AIController.h"
 
 // Sets default values
 AGrenade::AGrenade()
@@ -59,7 +60,7 @@ bool AGrenade::Explode()
 		}
 		
 		FTimerHandle AfterExplosionTimerHandle;
-        GetWorld()->GetTimerManager().SetTimer(AfterExplosionTimerHandle, this, &AGrenade::ReturnActorsToNormalState, 7.f, false);
+        GetWorld()->GetTimerManager().SetTimer(AfterExplosionTimerHandle, this, &AGrenade::ReturnActorsToNormalState, 5.f, false);
 	}
 	return true;
 }
@@ -95,85 +96,131 @@ bool AGrenade::GetOverlappingActorsInRadiusOfExplosion()
 
 bool AGrenade::ApplyForceToOverlappingActors()
 {
-	if (!ActorsInExplosionRadius.IsEmpty())
-	{
-		ActorsInExplosionRadiusSize = ActorsInExplosionRadius.Num();
-		for (AActor* Actor : ActorsInExplosionRadius)
-		{
-			APawn* Pawn = Cast<APawn>(Actor);
-			if (Pawn)
-			{
-				FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
-				Direction.Normalize();
-				float ForceMagnitude = 30000.f;
+    if (!ActorsInExplosionRadius.IsEmpty())
+    {
+        ActorsInExplosionRadiusSize = ActorsInExplosionRadius.Num();
+        for (AActor* Actor : ActorsInExplosionRadius)
+        {
+            APawn* Pawn = Cast<APawn>(Actor);
+            if (Pawn)
+            {
+                FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
+                Direction.Normalize();
+                float ForceMagnitude =30000.f;
 
-				ACharacter* Character = Cast<ACharacter>(Pawn);
-				if (Character)
-				{
-					if (Character->GetMesh())
-					{
-						if (ActorsInExplosionRadiusCount < ActorsInExplosionRadiusSize)
-						{
+                ACharacter* Character = Cast<ACharacter>(Pawn);
+                if (Character && Character->GetMesh())
+                {
+                    if (ActorsInExplosionRadiusCount < ActorsInExplosionRadiusSize)
+                    {
+                        UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
+                        if (AnimInstance)
+                        {
+                            AnimInstance->StopAllMontages(0.0f);
+                        }
 
-							UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
-							if (AnimInstance)
-							{
-								AnimInstance->StopAllMontages(0.0f);
-							}
+                        FRotator Rotation = Character->GetActorRotation();
+                        FVector Location = Character->GetActorLocation();
 
-							FRotator Rotation = Character->GetActorRotation();
-							FVector Location = Character->GetActorLocation();
+                        OriginalRotations.Add(Character, Rotation);
+                        OriginalPositions.Add(Character, Location);
 
-							OriginalRotations.Add(Character, Rotation);
-							OriginalPositions.Add(Character, Location);
+                        if (Character->GetController())
+                        {
+                            Character->GetController()->StopMovement();
+                        }
 
-							UE_LOG(LogTemp, Warning, TEXT("Original rotation of the character: %s"), *Rotation.ToString());
-							UE_LOG(LogTemp, Warning, TEXT("Original location of the character: %s"), *Location.ToString());
+                        // if (Character->GetCharacterMovement())
+                        // {
+                        //     Character->GetCharacterMovement()->DisableMovement();
+                        // }
 
-							Character->GetMesh()->SetSimulatePhysics(true);
-							ActorsInExplosionRadiusCount++;
+						Character->GetMesh()->SetEnableGravity(false);
+						if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+                        {
+                            MoveComp->GravityScale = 0.f;
 						}
-						
-						Character->GetMesh()->AddForce(Direction * ForceMagnitude);
-					}
-				}
-			}	
-		}
-	}
-	return true;
+
+                        Character->GetMesh()->SetSimulatePhysics(true); // Enable physics simulation on the mesh
+                        ActorsInExplosionRadiusCount++;
+                    }
+
+                    Character->GetMesh()->AddForce(Direction * ForceMagnitude);
+                }
+            }   
+        }
+    }
+    return true;
 }
 
 void AGrenade::ReturnActorsToNormalState()
 {
-	Destroy();
-	if (!ActorsInExplosionRadius.IsEmpty())
-	{
-		for (AActor* Actor : ActorsInExplosionRadius)
-		{
-			APawn* Pawn = Cast<APawn>(Actor);
-			if (Pawn)
-			{
-				ACharacter* Character = Cast<ACharacter>(Pawn);
-				if (Character)
-				{
-					if (Character->GetMesh())
-					{
-						Character->GetMesh()->SetSimulatePhysics(false);
+    Destroy();
+    if (!ActorsInExplosionRadius.IsEmpty())
+    {
+        for (AActor* Actor : ActorsInExplosionRadius)
+        {
+            APawn* Pawn = Cast<APawn>(Actor);
+            if (Pawn)
+            {
+                ACharacter* Character = Cast<ACharacter>(Pawn);
+				USkeletalMeshComponent* CharacterMesh = Character->GetMesh();
+                if (Character && CharacterMesh)
+                {
+                    if (OriginalPositions.Contains(Character) && OriginalRotations.Contains(Character))
+                    {
+                        // Clear any pending physics velocities
+                        CharacterMesh->SetPhysicsLinearVelocity(FVector::ZeroVector);
+                        CharacterMesh->SetPhysicsAngularVelocityInDegrees(FVector::ZeroVector);
 
-						if (OriginalRotations.Contains(Character))
-						{
-							Character->SetActorRotation(OriginalRotations[Character]);
-							UE_LOG(LogTemp, Warning, TEXT("set actor rotation back to %s"), *OriginalRotations[Character].ToString());
+                        // Disable physics simulation
+                        CharacterMesh->SetSimulatePhysics(false);
+
+                        // Reset the character's location and rotation
+                        // Character->SetActorLocation(OriginalPositions[Character]);
+                        // Character->SetActorRotation(OriginalRotations[Character]);
+
+						FVector DiffVec = CharacterMesh->GetRelativeLocation() - CharacterMeshLocalLocation;
+
+						Character->SetActorLocation(Character->GetActorLocation() - DiffVec);
+
+                        // Ensure the skeletal mesh is reset relative to the root component
+
+                        CharacterMesh->SetRelativeLocation(CharacterMeshLocalLocation);
+                        CharacterMesh->SetRelativeRotation(CharacterMeshLocalRotation);
+
+                        // // Detach the AI controller
+                        // if (AAIController* AIController = Cast<AAIController>(Character->GetController()))
+                        // {
+                        //     AIController->UnPossess();
+                        //     UE_LOG(LogTemp, Warning, TEXT("AI Controller detached"));
+                        // }
+
+                        // Force update transform to ensure changes take effect immediately
+                        USceneComponent* RootComp = Character->GetRootComponent();
+                        if (RootComp)
+                        {
+                            RootComp->UpdateComponentToWorld();
+                        }
+
+                        // Re-enable movement if necessary
+
+						CharacterMesh->SetEnableGravity(true);
+						if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+                        {
+                            MoveComp->GravityScale = 1.f;
+							MoveComp->SetMovementMode(EMovementMode::MOVE_Walking);
 						}
-						if (OriginalPositions.Contains(Character))
-						{
-							Character->SetActorLocation(OriginalPositions[Character]);
-							UE_LOG(LogTemp, Warning, TEXT("set actor location back to %s"), *OriginalPositions[Character].ToString());
-						}
-					}
-				}
-			}	
-		}
-	}
+
+                        // Repossess the AI controller after the reset is complete
+                        // if (AAIController* AIController = Cast<AAIController>(Character->GetController()))
+                        // {
+                        //     AIController->Possess(Character);
+                        //     UE_LOG(LogTemp, Warning, TEXT("AI Controller re-possessed"));
+                        // }
+                    }
+                }
+            }
+        }
+    }
 }
-
