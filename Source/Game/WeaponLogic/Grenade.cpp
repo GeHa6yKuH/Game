@@ -164,7 +164,7 @@ void AGrenade::ReturnActorsToNormalState()
             if (Pawn)
             {
                 ACharacter* Character = Cast<ACharacter>(Pawn);
-				USkeletalMeshComponent* CharacterMesh = Character->GetMesh();
+                USkeletalMeshComponent* CharacterMesh = Character->GetMesh();
                 if (Character && CharacterMesh)
                 {
                     if (OriginalPositions.Contains(Character) && OriginalRotations.Contains(Character))
@@ -176,25 +176,32 @@ void AGrenade::ReturnActorsToNormalState()
                         // Disable physics simulation
                         CharacterMesh->SetSimulatePhysics(false);
 
-                        // Reset the character's location and rotation
-                        // Character->SetActorLocation(OriginalPositions[Character]);
-                        // Character->SetActorRotation(OriginalRotations[Character]);
+                        // Set the character's location to the current world location of the mesh
+                        FVector CurrentWorldLocation = CharacterMesh->GetComponentLocation();
 
-						FVector DiffVec = CharacterMesh->GetRelativeLocation() - CharacterMeshLocalLocation;
+                        // DrawDebugSphere(
+                        //     GetWorld(),
+                        //     CurrentWorldLocation,
+                        //     5.f,
+                        //     30,
+                        //     FColor::Emerald,
+                        //     true,
+                        //     3.f
+                        // );
 
-						Character->SetActorLocation(Character->GetActorLocation() - DiffVec);
+                        // Log vectors for debugging
+                        UE_LOG(LogTemp, Warning, TEXT("Initial World Location: %s"), *OriginalPositions[Character].ToString());
+                        UE_LOG(LogTemp, Warning, TEXT("Current World Location: %s"), *CurrentWorldLocation.ToString());
 
-                        // Ensure the skeletal mesh is reset relative to the root component
+                        // Update the character's world location
+                        Character->SetActorLocation(CurrentWorldLocation);
+                        
+                        // Log the new world location
+                        UE_LOG(LogTemp, Warning, TEXT("New World Location: %s"), *CurrentWorldLocation.ToString());
 
+                        // Reset the mesh to its initial relative position and rotation
                         CharacterMesh->SetRelativeLocation(CharacterMeshLocalLocation);
                         CharacterMesh->SetRelativeRotation(CharacterMeshLocalRotation);
-
-                        // // Detach the AI controller
-                        // if (AAIController* AIController = Cast<AAIController>(Character->GetController()))
-                        // {
-                        //     AIController->UnPossess();
-                        //     UE_LOG(LogTemp, Warning, TEXT("AI Controller detached"));
-                        // }
 
                         // Force update transform to ensure changes take effect immediately
                         USceneComponent* RootComp = Character->GetRootComponent();
@@ -204,20 +211,12 @@ void AGrenade::ReturnActorsToNormalState()
                         }
 
                         // Re-enable movement if necessary
-
-						CharacterMesh->SetEnableGravity(true);
-						if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+                        CharacterMesh->SetEnableGravity(true);
+                        if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
                         {
                             MoveComp->GravityScale = 1.f;
-							MoveComp->SetMovementMode(EMovementMode::MOVE_Walking);
-						}
-
-                        // Repossess the AI controller after the reset is complete
-                        // if (AAIController* AIController = Cast<AAIController>(Character->GetController()))
-                        // {
-                        //     AIController->Possess(Character);
-                        //     UE_LOG(LogTemp, Warning, TEXT("AI Controller re-possessed"));
-                        // }
+                            MoveComp->SetMovementMode(EMovementMode::MOVE_Walking);
+                        }
                     }
                 }
             }
