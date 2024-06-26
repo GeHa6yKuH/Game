@@ -89,8 +89,6 @@ bool AGrenade::GetOverlappingActorsInRadiusOfExplosion()
 		ActorsInExplosionRadius
 	);
 
-	UE_LOG(LogTemp, Warning, TEXT("OverlappingFound is %s"), OverlappingFound ? TEXT("true") : TEXT("false"));
-
 	return true;
 }
 
@@ -105,8 +103,21 @@ bool AGrenade::ApplyForceToOverlappingActors()
             if (Pawn)
             {
                 FVector Direction = ExplosionLocation - Pawn->GetActorLocation();
+                float Distance = Direction.Size();
+
+                if (Distance < MagnitudeIrrelatableDistance)
+                {
+                    continue;
+                }
+
                 Direction.Normalize();
-                float ForceMagnitude =30000.f;
+
+                double ValueToClamp = Distance / 1000;
+                UE_LOG(LogTemp, Warning, TEXT("Value To Clamp: %f"), ValueToClamp);
+
+                float DistanceFactor = FMath::Clamp(ValueToClamp, 0.0f, 1.0f);
+                
+                FVector Force = Direction * ForceMagnitude * DistanceFactor;
 
                 ACharacter* Character = Cast<ACharacter>(Pawn);
                 if (Character && Character->GetMesh())
@@ -130,24 +141,19 @@ bool AGrenade::ApplyForceToOverlappingActors()
                             Character->GetController()->StopMovement();
                         }
 
-                        // if (Character->GetCharacterMovement())
-                        // {
-                        //     Character->GetCharacterMovement()->DisableMovement();
-                        // }
-
-						Character->GetMesh()->SetEnableGravity(false);
-						if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
+                        Character->GetMesh()->SetEnableGravity(false);
+                        if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
                         {
                             MoveComp->GravityScale = 0.f;
-						}
+                        }
 
-                        Character->GetMesh()->SetSimulatePhysics(true); // Enable physics simulation on the mesh
+                        Character->GetMesh()->SetSimulatePhysics(true);
                         ActorsInExplosionRadiusCount++;
                     }
 
-                    Character->GetMesh()->AddForce(Direction * ForceMagnitude);
+                    Character->GetMesh()->AddForce(Force);
                 }
-            }   
+            }
         }
     }
     return true;
@@ -163,7 +169,7 @@ void AGrenade::ReturnActorsToNormalState()
             APawn* Pawn = Cast<APawn>(Actor);
             if (Pawn)
             {
-                ACharacter* Character = Cast<ACharacter>(Pawn);
+                ADefaultMainCharacter* Character = Cast<ADefaultMainCharacter>(Pawn);
                 USkeletalMeshComponent* CharacterMesh = Character->GetMesh();
                 if (Character && CharacterMesh)
                 {
@@ -179,15 +185,15 @@ void AGrenade::ReturnActorsToNormalState()
                         // Set the character's location to the current world location of the mesh
                         FVector CurrentWorldLocation = CharacterMesh->GetComponentLocation();
 
-                        // DrawDebugSphere(
-                        //     GetWorld(),
-                        //     CurrentWorldLocation,
-                        //     5.f,
-                        //     30,
-                        //     FColor::Emerald,
-                        //     true,
-                        //     3.f
-                        // );
+                        DrawDebugSphere(
+                            GetWorld(),
+                            CurrentWorldLocation,
+                            5.f,
+                            30,
+                            FColor::Red,
+                            true,
+                            3.f
+                        );
 
                         // Log vectors for debugging
                         UE_LOG(LogTemp, Warning, TEXT("Initial World Location: %s"), *OriginalPositions[Character].ToString());
@@ -217,6 +223,11 @@ void AGrenade::ReturnActorsToNormalState()
                             MoveComp->GravityScale = 1.f;
                             MoveComp->SetMovementMode(EMovementMode::MOVE_Walking);
                         }
+                    }
+                    Character->SetHP(Character->GetHP() - Damage);
+                    if (Character->IsDead())
+                    {
+                        Character->Die();
                     }
                 }
             }

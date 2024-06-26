@@ -198,5 +198,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	float GetGrenadeThrowSpeed() const { return GrenadeThrowSpeed; }
+
+	float GetHP() const { return HP; }
+
+	void SetHP(float NewHP) { HP = NewHP; }
 	
 };

@@ -40,6 +40,14 @@ private:
 
 	bool IsExploding = false;
 
+	float Damage = 50.f;
+
+	UPROPERTY(EditAnyWhere)
+	float ForceMagnitude = 20000.f;
+
+	UPROPERTY(EditAnyWhere)
+	float MagnitudeIrrelatableDistance = 150.f;
+
 	TMap<class ACharacter*, FRotator> OriginalRotations;
 
 	TMap<ACharacter*, FVector> OriginalPositions;
