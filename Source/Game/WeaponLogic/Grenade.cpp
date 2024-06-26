@@ -113,7 +113,6 @@ bool AGrenade::ApplyForceToOverlappingActors()
                 Direction.Normalize();
 
                 double ValueToClamp = Distance / 1000;
-                UE_LOG(LogTemp, Warning, TEXT("Value To Clamp: %f"), ValueToClamp);
 
                 float DistanceFactor = FMath::Clamp(ValueToClamp, 0.0f, 1.0f);
                 
@@ -195,15 +194,11 @@ void AGrenade::ReturnActorsToNormalState()
                             3.f
                         );
 
-                        // Log vectors for debugging
-                        UE_LOG(LogTemp, Warning, TEXT("Initial World Location: %s"), *OriginalPositions[Character].ToString());
-                        UE_LOG(LogTemp, Warning, TEXT("Current World Location: %s"), *CurrentWorldLocation.ToString());
-
                         // Update the character's world location
                         Character->SetActorLocation(CurrentWorldLocation);
                         
                         // Log the new world location
-                        UE_LOG(LogTemp, Warning, TEXT("New World Location: %s"), *CurrentWorldLocation.ToString());
+                        //UE_LOG(LogTemp, Warning, TEXT("New World Location: %s"), *CurrentWorldLocation.ToString());
 
                         // Reset the mesh to its initial relative position and rotation
                         CharacterMesh->SetRelativeLocation(CharacterMeshLocalLocation);

@@ -21,6 +21,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "EnhancedInputComponent.h"
+#include "Engine/DamageEvents.h"
 
 
 // Sets default values
@@ -359,9 +360,23 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 
 	if(DamageApplied > 0 && HP > 0)
 	{
+		if (DamageEvent.IsOfType(FPointDamageEvent::ClassID))
+        {
+            const FPointDamageEvent* PointDamageEvent = static_cast<const FPointDamageEvent*>(&DamageEvent);
+
+			if(PointDamageEvent)
+			{
+				FName BoneHit = PointDamageEvent->HitInfo.BoneName;
+				UE_LOG(LogTemp, Warning, TEXT("Bone Hit: %s"), *BoneHit.ToString());
+				if (BoneHit == HeadBone)
+            	{
+					UE_LOG(LogTemp, Warning, TEXT("Headshot!"));
+            	    DamageApplied *= 5.0f;
+            	}
+			}
+        }
 		DamageApplied = FMath::Min(HP, DamageApplied);
 		HP -= DamageApplied;
-		UE_LOG(LogTemp, Warning, TEXT("current health after shot for %s: %f"), *GetName(), HP);
 
 		if(IsDead())
 		{
@@ -374,17 +389,39 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 
 void ADefaultMainCharacter::Die()
 {
-	AGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameGameMode>();
-	if (GameMode)
-	{
-		GameMode->PawnKilled(this);
-	} else
-	{
-		UE_LOG(LogTemp, Error, TEXT("error no gamemode found!"));
-	}
+    AGameGameMode* GameMode = GetWorld()->GetAuthGameMode<AGameGameMode>();
+    if (GameMode)
+    {
+        GameMode->PawnKilled(this);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("error no gamemode found!"));
+    }
 
-	UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
-	DetachFromControllerPendingDestroy();
-	GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-	GetMesh()->SetSimulatePhysics(true);
+    UE_LOG(LogTemp, Warning, TEXT("%s is killed"), *GetName());
+    
+    DetachFromControllerPendingDestroy();
+    
+    UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
+    if (MovementComponent)
+    {
+        MovementComponent->StopMovementImmediately();
+        MovementComponent->DisableMovement();
+    }
+
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+    USkeletalMeshComponent* CharMesh = GetMesh();
+    if (CharMesh)
+    {
+        CharMesh->SetSimulatePhysics(true);
+        CharMesh->WakeAllRigidBodies();
+    }
+
+    if (Controller)
+    {
+        Controller->UnPossess();
+        Controller->StopMovement();
+    }
 }

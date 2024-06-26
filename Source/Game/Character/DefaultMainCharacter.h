@@ -115,6 +115,8 @@ private:
 	UPROPERTY(VisibleAnyWhere)
 	FRotator NormalCharacterRotation;
 
+	FName HeadBone = TEXT("head");
+
 public:
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)

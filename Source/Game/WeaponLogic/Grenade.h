@@ -46,7 +46,7 @@ private:
 	float ForceMagnitude = 20000.f;
 
 	UPROPERTY(EditAnyWhere)
-	float MagnitudeIrrelatableDistance = 150.f;
+	float MagnitudeIrrelatableDistance = 100.f;
 
 	TMap<class ACharacter*, FRotator> OriginalRotations;
 
