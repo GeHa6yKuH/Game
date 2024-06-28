@@ -22,7 +22,7 @@ public:
 	// Sets default values for this actor's properties
 	AWeaponMaster();
 
-	void PullTrigger();
+	void PullTrigger(bool IsOneTouch);
 
 	void ReloadWeapon();
 

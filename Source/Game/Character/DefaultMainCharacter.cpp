@@ -127,6 +127,9 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Shoot);
 		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopShooting);
 
+		EnhancedInputComp->BindAction(ShootTouchAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ShootTouch);
+		EnhancedInputComp->BindAction(ShootTouchAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::StopShootingTouch);
+
 		EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::Interact);
 
 		EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeFirstWeapon);
@@ -176,7 +179,7 @@ void ADefaultMainCharacter::Shoot()
 {
 	if(CharacterWeapon && !isRunning)
 	{
-		CharacterWeapon->PullTrigger();
+		CharacterWeapon->PullTrigger(false);
 		if (CharacterWeapon->GetMagazineBulletsAmount() > 0 && !CharacterWeapon->IsReloading())
 		{
 			CharacterWeapon->WeaponIsFiring();
@@ -192,7 +195,28 @@ void ADefaultMainCharacter::StopShooting()
 	{
 		CharacterWeapon->WeaponStopsFiring();
 	}
-	
+}
+
+void ADefaultMainCharacter::ShootTouch()
+{
+	if(CharacterWeapon && !isRunning)
+	{
+		CharacterWeapon->PullTrigger(true);
+		if (CharacterWeapon->GetMagazineBulletsAmount() > 0 && !CharacterWeapon->IsReloading())
+		{
+			CharacterWeapon->WeaponIsFiring();
+		}
+	} else {
+		UE_LOG(LogTemp, Warning, TEXT("No weapon in hands to shoot!"))
+	}
+}
+
+void ADefaultMainCharacter::StopShootingTouch()
+{
+	if (CharacterWeapon)
+	{
+		CharacterWeapon->WeaponStopsFiring();
+	}
 }
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
