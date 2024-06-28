@@ -41,6 +41,9 @@ protected:
 	UInputAction* ShootAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
+	UInputAction* ShootTouchAction;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
 	UInputAction* InteractAction;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input")
@@ -115,7 +118,7 @@ private:
 	UPROPERTY(VisibleAnyWhere)
 	FRotator NormalCharacterRotation;
 
-	FName HeadBone = TEXT("head");
+	FName HeadBone = TEXT("spine_05");
 
 public:
 
@@ -168,6 +171,11 @@ public:
 	void Shoot();
 
 	void StopShooting();
+
+	UFUNCTION(BlueprintCallable)
+	void ShootTouch();
+
+	void StopShootingTouch();
 	
 	virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, class AController* EventInstigator, AActor* DamageCauser) override;
 

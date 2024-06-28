@@ -35,7 +35,7 @@ void AWeaponMaster::Tick(float DeltaTime)
 
 }
 
-void AWeaponMaster::PullTrigger()
+void AWeaponMaster::PullTrigger(bool IsOneTouch)
 {
 	if (CanFire() && !IsReloading() && MagazineBulletsAmount > 0)
 	{
@@ -73,12 +73,15 @@ void AWeaponMaster::PullTrigger()
 
 		bool bSuccess = GetWorld()->LineTraceSingleByChannel(HitResult, Location, End, ECollisionChannel::ECC_GameTraceChannel1, Params);
 
-		GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AWeaponMaster::ResetCooldown, Delay, false);
+		if (!IsOneTouch)
+		{
+			GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AWeaponMaster::ResetCooldown, Delay, false);
+		}
 
 		if(bSuccess)
 		{
 			FVector ShotDirection = -Rotation.Vector();
-			// DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true, DebugLifeTime);
+			//DrawDebugPoint(GetWorld(), HitResult.Location, 20, FColor::Red, true, DebugLifeTime);
 
 			FPointDamageEvent DamageEvent(Damage, HitResult, ShotDirection, nullptr);
 			AActor* ActorHit = HitResult.GetActor();
