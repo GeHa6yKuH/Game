@@ -306,7 +306,7 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::TakeGrenade(const FInputActionValue& Value)
 {
-	if (!IsPlayingAnimDoor && GrenadeClass && !Grenade)
+	if (!IsPlayingAnimDoor && GrenadeClass && !Grenade && !isRunning)
 	{
 		HideWeapon();
 		Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeClass);
@@ -391,7 +391,12 @@ float ADefaultMainCharacter::TakeDamage(float DamageAmount, struct FDamageEvent 
 			if(PointDamageEvent)
 			{
 				FName BoneHit = PointDamageEvent->HitInfo.BoneName;
-				UE_LOG(LogTemp, Warning, TEXT("Bone Hit: %s"), *BoneHit.ToString());
+
+				FVector HitLocation = PointDamageEvent->HitInfo.ImpactPoint;
+        		FVector TraceStart = PointDamageEvent->HitInfo.TraceStart;
+        		FVector HitDirection = (HitLocation - TraceStart).GetSafeNormal();
+
+				PushBoneBack(BoneHit, HitDirection);
 				if (BoneHit == HeadBone)
             	{
 					UE_LOG(LogTemp, Warning, TEXT("Headshot!"));

@@ -190,6 +190,9 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 	void AudioAndRecoilIfWeaponPresent();
 
+	UFUNCTION(BlueprintImplementableEvent)
+	void PushBoneBack(FName Bone, FVector BonePushVector);
+
 	UFUNCTION()
 	void SpawnCardInHandsBeforeAnim();
 
