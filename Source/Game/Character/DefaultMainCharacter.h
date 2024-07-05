@@ -110,7 +110,7 @@ private:
 	TSubclassOf<class ARifleGun> RifleForAI;
 
 	UPROPERTY(EditDefaultsOnly)
-	float MaxHP = 100;
+	float MaxHP = 10000000;
 
 	UPROPERTY(VisibleAnyWhere)
 	float HP;

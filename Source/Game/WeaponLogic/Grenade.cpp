@@ -113,9 +113,7 @@ bool AGrenade::ApplyForceToOverlappingActors()
                 Direction.Normalize();
 
                 double ValueToClamp = Distance / 1000;
-
                 float DistanceFactor = FMath::Clamp(ValueToClamp, 0.0f, 1.0f);
-                
                 FVector Force = Direction * ForceMagnitude * DistanceFactor;
 
                 ACharacter* Character = Cast<ACharacter>(Pawn);
@@ -150,7 +148,18 @@ bool AGrenade::ApplyForceToOverlappingActors()
                         ActorsInExplosionRadiusCount++;
                     }
 
+                    // Apply the force
                     Character->GetMesh()->AddForce(Force);
+
+                    // Ensure the character stays within the explosion radius
+                    FVector NewLocation = Character->GetActorLocation();
+                    FVector ToExplosionCenter = NewLocation - ExplosionLocation;
+                    if (ToExplosionCenter.Size() > ExplosionRadius)
+                    {
+                        // Calculate a counter force to keep the character within the radius
+                        FVector CounterForce = -ToExplosionCenter.GetSafeNormal() * ForceMagnitude * DistanceFactor;
+                        Character->GetMesh()->AddForce(CounterForce);
+                    }
                 }
             }
         }
