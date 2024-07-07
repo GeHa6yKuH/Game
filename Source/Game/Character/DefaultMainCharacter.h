@@ -104,9 +104,6 @@ private:
 	TSubclassOf<class ADoorCard> DoorCardClass;
 
 	UPROPERTY(EditDefaultsOnly)
-	TSubclassOf<class AGrenade> GrenadeClass;
-
-	UPROPERTY(EditDefaultsOnly)
 	TSubclassOf<class ARifleGun> RifleForAI;
 
 	UPROPERTY(EditDefaultsOnly)
@@ -120,7 +117,21 @@ private:
 
 	FName HeadBone = TEXT("spine_05");
 
+	bool EquippingGrenade = false;
+
 public:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<class AGrenade> GrenadeClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<class AGrenade> GrenadeSecondClass;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<class AGrenade> EquippedGrenadeClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool SecondGrenadeEquipped = false;
 
 	UPROPERTY(VisibleAnyWhere, BlueprintReadWrite)
 	int CharacterWeaponInt = -1;
@@ -215,5 +226,7 @@ public:
 	float GetHP() const { return HP; }
 
 	void SetHP(float NewHP) { HP = NewHP; }
+
+	void TakeGrenadeByClass(TSubclassOf<class AGrenade> GrenClass);
 	
 };

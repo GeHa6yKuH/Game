@@ -306,13 +306,23 @@ void ADefaultMainCharacter::TakeSecondWeapon(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::TakeGrenade(const FInputActionValue& Value)
 {
-	if (!IsPlayingAnimDoor && GrenadeClass && !Grenade && !isRunning)
+	if (!IsPlayingAnimDoor && GrenadeClass && !isRunning && !EquippingGrenade)
 	{
-		HideWeapon();
-		Grenade = GetWorld()->SpawnActor<AGrenade>(GrenadeClass);
-		Grenade->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Grenade"));
-		Grenade->SetOwner(this);
-		GrenadeEquipped = true;
+		EquippingGrenade = true;
+		if (!Grenade || SecondGrenadeEquipped)
+		{
+			DestroyGrenadeIfPresent();
+			TakeGrenadeByClass(GrenadeClass);
+			SecondGrenadeEquipped = false;
+			EquippedGrenadeClass = GrenadeClass;
+		} else if (!SecondGrenadeEquipped)
+		{
+			DestroyGrenadeIfPresent();
+			TakeGrenadeByClass(GrenadeSecondClass);
+			SecondGrenadeEquipped = true;
+			EquippedGrenadeClass = GrenadeSecondClass;
+		}
+		EquippingGrenade = false;
 	}
 }
 
@@ -324,6 +334,15 @@ void ADefaultMainCharacter::DestroyGrenadeIfPresent()
 		Grenade = nullptr;
 		GrenadeEquipped = false;
 	}
+}
+
+void ADefaultMainCharacter::TakeGrenadeByClass(TSubclassOf<class AGrenade> GrenClass)
+{
+	HideWeapon();
+	Grenade = GetWorld()->SpawnActor<AGrenade>(GrenClass);
+	Grenade->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Grenade"));
+	Grenade->SetOwner(this);
+	GrenadeEquipped = true;
 }
 
 void ADefaultMainCharacter::ReloadWeapon(const FInputActionValue& Value)

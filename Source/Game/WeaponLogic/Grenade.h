@@ -19,7 +19,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-private:
+protected:
 
 	UPROPERTY(EditAnyWhere)
 	USceneComponent* RootScene;
@@ -74,7 +74,7 @@ public:
 	bool GetOverlappingActorsInRadiusOfExplosion();
 
 	UFUNCTION(BlueprintCallable)
-	bool ApplyForceToOverlappingActors();
+	virtual bool ApplyForceToOverlappingActors();
 
 	UFUNCTION(BlueprintCallable)
 	void ReturnActorsToNormalState();
