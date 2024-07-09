@@ -16,7 +16,13 @@ class GAME_API AGravitationalPushGrenade : public AGrenade
 
 	bool ApplyForceToOverlappingActors() override;
 
-	public:
+private:
+
+	bool ForceAdded = false;
+
+public:
+
+	virtual void Tick(float DeltaTime) override;
 
 	AGravitationalPushGrenade();
 };

@@ -154,6 +154,7 @@ void ADefaultMainCharacter::SetGrenadeSpeed(const FInputActionValue& Value)
 void ADefaultMainCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D MoveVal = Value.Get<FVector2D>();
+	SidewayMovement = MoveVal.X;
 	
 	const FRotator Rotation = GetController()->GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
@@ -171,6 +172,9 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 	{
 		AddControllerYawInput(LookAxisValue.X);
 		AddControllerPitchInput(LookAxisValue.Y);
+
+		MouseX = LookAxisValue.X;
+		MouseY = LookAxisValue.Y;
 	}
 	
 }

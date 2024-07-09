@@ -228,5 +228,14 @@ public:
 	void SetHP(float NewHP) { HP = NewHP; }
 
 	void TakeGrenadeByClass(TSubclassOf<class AGrenade> GrenClass);
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float MouseX;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float MouseY;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float SidewayMovement;
 	
 };

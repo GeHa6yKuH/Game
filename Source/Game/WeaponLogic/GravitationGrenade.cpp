@@ -10,6 +10,15 @@
 #include "DrawDebugHelpers.h"
 #include "Animation/AnimInstance.h"
 
+void AGravitationGrenade::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+	if (IsExploding)
+	{
+		ApplyForceToOverlappingActors();
+	}
+}
 
 bool AGravitationGrenade::ApplyForceToOverlappingActors()
 {
@@ -36,11 +45,13 @@ bool AGravitationGrenade::ApplyForceToOverlappingActors()
                 FVector Force = Direction * ForceMagnitude * DistanceFactor;
 
                 ACharacter* Character = Cast<ACharacter>(Pawn);
-                if (Character && Character->GetMesh())
+                USkeletalMeshComponent* CharacterMesh = Character->GetMesh();
+
+                if (Character && CharacterMesh)
                 {
                     if (ActorsInExplosionRadiusCount < ActorsInExplosionRadiusSize)
                     {
-                        UAnimInstance* AnimInstance = Character->GetMesh()->GetAnimInstance();
+                        UAnimInstance* AnimInstance = CharacterMesh->GetAnimInstance();
                         if (AnimInstance)
                         {
                             AnimInstance->StopAllMontages(0.0f);
@@ -57,28 +68,28 @@ bool AGravitationGrenade::ApplyForceToOverlappingActors()
                             Character->GetController()->StopMovement();
                         }
 
-                        Character->GetMesh()->SetEnableGravity(false);
+                        CharacterMesh->SetEnableGravity(false);
                         if (UCharacterMovementComponent* MoveComp = Character->GetCharacterMovement())
                         {
                             MoveComp->GravityScale = 0.f;
                         }
 
-                        Character->GetMesh()->SetSimulatePhysics(true);
+                        CharacterMesh->SetSimulatePhysics(true);
                         ActorsInExplosionRadiusCount++;
                     }
 
-                    // Apply the force
-                    Character->GetMesh()->AddForce(Force);
-
                     // Ensure the character stays within the explosion radius
-                    FVector NewLocation = Character->GetActorLocation();
-                    FVector ToExplosionCenter = NewLocation - ExplosionLocation;
+                    FVector NewLocation = CharacterMesh->GetRelativeLocation();
+                    FVector ToExplosionCenter = NewLocation - (CharacterMeshLocalLocation + Direction);
                     if (ToExplosionCenter.Size() > ExplosionRadius)
                     {
-                        // Calculate a counter force to keep the character within the radius
-                        FVector CounterForce = -ToExplosionCenter.GetSafeNormal() * ForceMagnitude * DistanceFactor;
-                        Character->GetMesh()->AddForce(CounterForce);
+                        // FVector CounterForce = -ToExplosionCenter.GetSafeNormal() * ForceMagnitude * DistanceFactor;
+                        CharacterMesh->AddForce(-Force);
+                        return true;
                     }
+
+                    // Apply the force
+                    CharacterMesh->AddForce(Force);
                 }
             }
         }

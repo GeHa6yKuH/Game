@@ -14,7 +14,18 @@ AGravitationalPushGrenade::AGravitationalPushGrenade()
 {
     PrimaryActorTick.bCanEverTick = true;
 
-    ForceMagnitude = 30000.f;
+    ForceMagnitude = 15000.f;
+}
+
+void AGravitationalPushGrenade::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+
+    if (IsExploding && !ForceAdded)
+	{
+		ApplyForceToOverlappingActors();
+        ForceAdded = true;
+	}
 }
 
 bool AGravitationalPushGrenade::ApplyForceToOverlappingActors()
@@ -68,8 +79,7 @@ bool AGravitationalPushGrenade::ApplyForceToOverlappingActors()
                     }
 
                     // Apply the force
-                    Character->GetMesh()->AddForce(Force);
-                    UE_LOG(LogTemp, Warning, TEXT("second grenade works!"));
+                    Character->GetMesh()->AddImpulse(Force);
                 }
             }
         }

@@ -17,5 +17,7 @@ class GAME_API AGravitationGrenade : public AGrenade
 	public:
 
 	bool ApplyForceToOverlappingActors() override;
+
+	virtual void Tick(float DeltaTime) override;
 	
 };

@@ -43,7 +43,7 @@ protected:
 	float Damage = 50.f;
 
 	UPROPERTY(EditAnyWhere)
-	float ForceMagnitude = 20000.f;
+	float ForceMagnitude = 30000.f;
 
 	UPROPERTY(EditAnyWhere)
 	float MagnitudeIrrelatableDistance = 100.f;
