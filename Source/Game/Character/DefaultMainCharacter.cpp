@@ -54,7 +54,7 @@ void ADefaultMainCharacter::BeginPlay()
 
 	if (GetController()->IsA(AGameAIController::StaticClass()) && RifleForAI)
 	{
-		SpawnWeapon(RifleForAI);
+		//SpawnWeapon(RifleForAI);
 	}
 	
 }
@@ -106,6 +106,20 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 		CanSlide = false;
 		GetCharacterMovement()->MaxWalkSpeed = 450;
 	}
+
+    if (!IsMoving && SidewayMovement != 0.0f)
+    {
+        SidewayMovement = 0.0f;
+    }
+
+    if (!IsLooking && (MouseX != 0.0f || MouseY != 0.0f))
+    {
+        MouseX = 0.0f;
+        MouseY = 0.0f;
+    }
+
+    IsMoving = false;
+    IsLooking = false;
 }
 
 // Called to bind functionality to input
@@ -163,6 +177,8 @@ void ADefaultMainCharacter::Move(const FInputActionValue& Value)
 	AddMovementInput(Forward, MoveVal.Y);
 	const FVector Right = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
 	AddMovementInput(Right, MoveVal.X);
+
+	IsMoving = true;
 }
 
 void ADefaultMainCharacter::Look(const FInputActionValue& Value)
@@ -177,6 +193,7 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 		MouseY = LookAxisValue.Y;
 	}
 	
+	IsLooking = true;
 }
 
 void ADefaultMainCharacter::Shoot()

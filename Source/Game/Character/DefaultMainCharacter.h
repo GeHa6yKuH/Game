@@ -119,6 +119,10 @@ private:
 
 	bool EquippingGrenade = false;
 
+	bool IsMoving = false;
+
+	bool IsLooking = false;
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
