@@ -78,7 +78,7 @@ void ADefaultMainCharacter::RemoveCardFromHandsAfterAnim()
 	}
 	if (CharacterWeapon)
 	{
-		FName SocketFiringPoseName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+		FName SocketFiringPoseName = CharacterWeaponInt == 0 ? TEXT("NewWeaponSocket") : TEXT("Pistol_Socket");
 		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketFiringPoseName);
 		SetIsPlayingAnimDoorFalse();
 	}
@@ -275,7 +275,7 @@ void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 			{
 				return;
 			}
-			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("NewWeaponSocket"));
 			DestroyGrenadeIfPresent();
 		} else if (CharacterWeapon && PreviousWeapon)
 		{
@@ -283,7 +283,7 @@ void ADefaultMainCharacter::TakeFirstWeapon(const FInputActionValue& Value)
 			PreviousWeapon = CharacterWeapon;
 			PreviousWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("pistol_holster"));
 			CharacterWeapon = SwitchWeapon;
-			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Weapon"));
+			CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("NewWeaponSocket"));
 			USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
 			if (WeaponMesh)
 			{
@@ -391,7 +391,7 @@ void ADefaultMainCharacter::SpawnWeapon(TSubclassOf<AWeaponMaster> WeaponClass)
 			CharacterWeaponInt = CharacterWeapon->GetWeaponType();
 			if (CharacterWeaponInt >= 0)
 			{
-				FName SocketName = CharacterWeaponInt == 0 ? TEXT("Weapon") : TEXT("Pistol_Socket");
+				FName SocketName = CharacterWeaponInt == 0 ? TEXT("NewWeaponSocket") : TEXT("Pistol_Socket");
 				CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
 				CharacterWeapon->SetOwner(this);
 				USkeletalMeshComponent* WeaponMesh = CharacterWeapon->GetWeapon();
