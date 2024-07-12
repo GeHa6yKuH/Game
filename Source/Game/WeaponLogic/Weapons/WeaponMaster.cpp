@@ -108,14 +108,28 @@ void AWeaponMaster::ReloadWeapon()
 	CanBeReloaded = BulletsToReload > 0 && TotalAmountOfBullets > 0;
 	if (CanBeReloaded && BulletsToReload > 0 && TotalAmountOfBullets >= BulletsToReload)
 	{
+		AttachRifleToSocket(TEXT("Weapon"));
 		TotalAmountOfBullets -= BulletsToReload;
 		MagazineBulletsAmount = MaximumMagazineBulletsAmount;
 		GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &AWeaponMaster::ResetReloadCooldown, ReloadDelay, false);
 	} else if (CanBeReloaded && BulletsToReload > 0 && TotalAmountOfBullets > 0)
 	{
+		AttachRifleToSocket(TEXT("Weapon"));
 		MagazineBulletsAmount += TotalAmountOfBullets;
 		TotalAmountOfBullets = 0;
 		GetWorld()->GetTimerManager().SetTimer(ReloadTimerHandle, this, &AWeaponMaster::ResetReloadCooldown, ReloadDelay, false);
+	}
+}
+
+void AWeaponMaster::AttachRifleToSocket(FName SocketN)
+{
+	if (WeaponType == 0)
+	{
+		ADefaultMainCharacter* CurrentShootingMainCharacter = Cast<ADefaultMainCharacter>(GetOwner());
+		if (CurrentShootingMainCharacter)
+		{
+			CurrentShootingMainCharacter->AttachRifleToSocket(SocketN);
+		}
 	}
 }
 
@@ -127,6 +141,7 @@ void AWeaponMaster::ResetCooldown()
 void AWeaponMaster::ResetReloadCooldown()
 {
 	GetWorld()->GetTimerManager().ClearTimer(ReloadTimerHandle);
+	AttachRifleToSocket(TEXT("NewWeaponSocket"));
 }
 
 bool AWeaponMaster::CanFire() const

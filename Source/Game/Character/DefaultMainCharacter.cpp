@@ -242,7 +242,10 @@ void ADefaultMainCharacter::StopShootingTouch()
 
 void ADefaultMainCharacter::StartRunning(const FInputActionValue& Value)
 {
-	isRunning = true;
+	if (!isAiming)
+	{
+		isRunning = true;
+	}
 }
 
 void ADefaultMainCharacter::StopRunning(const FInputActionValue& Value)
@@ -364,6 +367,14 @@ void ADefaultMainCharacter::TakeGrenadeByClass(TSubclassOf<class AGrenade> GrenC
 	Grenade->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, TEXT("Grenade"));
 	Grenade->SetOwner(this);
 	GrenadeEquipped = true;
+}
+
+void ADefaultMainCharacter::AttachRifleToSocket(FName SocketName)
+{
+	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
+	{
+		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
+	}
 }
 
 void ADefaultMainCharacter::ReloadWeapon(const FInputActionValue& Value)

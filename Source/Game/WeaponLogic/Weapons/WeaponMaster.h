@@ -88,7 +88,7 @@ private:
 	float Delay;
 
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
-	float ReloadDelay = 3.85;
+	float ReloadDelay = 2.85f;
 
 	struct FTimerHandle TimerHandle;
 
@@ -139,5 +139,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	USkeletalMeshComponent* WeaponSK;
+
+	void AttachRifleToSocket(FName SocketN);
 
 };

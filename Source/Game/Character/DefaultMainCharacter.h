@@ -241,5 +241,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float SidewayMovement;
+
+	void AttachRifleToSocket(FName SocketName);
 	
 };
