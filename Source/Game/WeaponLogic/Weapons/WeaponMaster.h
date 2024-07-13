@@ -88,7 +88,7 @@ private:
 	float Delay;
 
 	UPROPERTY(EditDefaultsOnly, category = "Weapon Variables")
-	float ReloadDelay = 2.85f;
+	float ReloadDelay = 2.86f;
 
 	struct FTimerHandle TimerHandle;
 
