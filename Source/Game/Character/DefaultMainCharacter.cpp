@@ -168,15 +168,21 @@ void ADefaultMainCharacter::SetGrenadeSpeed(const FInputActionValue& Value)
 void ADefaultMainCharacter::Move(const FInputActionValue& Value)
 {
 	const FVector2D MoveVal = Value.Get<FVector2D>();
-	SidewayMovement = MoveVal.X;
+
+	ForwardMovement = !IsSliding ? MoveVal.Y : 1;
+	SidewayMovement = !IsSliding ? MoveVal.X : 0;
 	
-	const FRotator Rotation = GetController()->GetControlRotation();
-	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
+	if (!IsSliding)
+	{
+		MoveRotation = GetController()->GetControlRotation();
+	}
+
+	const FRotator YawRotation(0.f, MoveRotation.Yaw, 0.f);
 
 	const FVector Forward = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-	AddMovementInput(Forward, MoveVal.Y);
+	AddMovementInput(Forward, ForwardMovement);
 	const FVector Right = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-	AddMovementInput(Right, MoveVal.X);
+	AddMovementInput(Right, SidewayMovement);
 
 	IsMoving = true;
 }

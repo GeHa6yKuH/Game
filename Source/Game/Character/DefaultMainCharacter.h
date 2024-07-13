@@ -123,6 +123,8 @@ private:
 
 	bool IsLooking = false;
 
+	FRotator MoveRotation;
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -241,6 +243,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
 	float SidewayMovement;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	float ForwardMovement;
 
 	void AttachRifleToSocket(FName SocketName);
 	
