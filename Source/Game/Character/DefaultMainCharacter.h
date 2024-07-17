@@ -125,6 +125,8 @@ private:
 
 	FRotator MoveRotation;
 
+	FVector BoneLocation { 0.f, 0.f, 0.f };
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)

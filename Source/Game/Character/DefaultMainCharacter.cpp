@@ -204,7 +204,7 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 
 void ADefaultMainCharacter::Shoot()
 {
-	if(CharacterWeapon && !isRunning)
+	if(CharacterWeapon && (!isRunning || IsSliding))
 	{
 		CharacterWeapon->PullTrigger(false);
 		if (CharacterWeapon->GetMagazineBulletsAmount() > 0 && !CharacterWeapon->IsReloading())
@@ -226,7 +226,7 @@ void ADefaultMainCharacter::StopShooting()
 
 void ADefaultMainCharacter::ShootTouch()
 {
-	if(CharacterWeapon && !isRunning)
+	if(CharacterWeapon && (!isRunning || IsSliding))
 	{
 		CharacterWeapon->PullTrigger(true);
 		if (CharacterWeapon->GetMagazineBulletsAmount() > 0 && !CharacterWeapon->IsReloading())
