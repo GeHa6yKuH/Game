@@ -83,7 +83,9 @@ protected:
 
 private:
 	
-	float Speed = 900.f;
+	float RunSpeed = 900.f;
+
+	float WalkSpeed = 450.f;
 
 	UPROPERTY(EditDefaultsOnly)
 	float GrenadeThrowSpeed = 1500.f;
@@ -125,7 +127,9 @@ private:
 
 	FRotator MoveRotation;
 
-	FVector BoneLocation { 0.f, 0.f, 0.f };
+	float MaxValueInSlideX = 30;
+
+	float CountValueInSlideX = 0.f;
 
 public:
 
@@ -250,5 +254,9 @@ public:
 	float ForwardMovement;
 
 	void AttachRifleToSocket(FName SocketName);
+
+	void AddLookRotationInputs(float xVal, float yVal);
+
+	void AddLookRotationInputsInSlide(float xVal, float yVal);
 	
 };

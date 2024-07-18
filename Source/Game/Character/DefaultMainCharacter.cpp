@@ -99,13 +99,22 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 	if (isRunning)
 	{
 		CanSlide = true;
-		GetCharacterMovement()->MaxWalkSpeed = Speed;
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+	} else if (IsSliding)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
 	}
 	else
 	{
 		CanSlide = false;
-		GetCharacterMovement()->MaxWalkSpeed = 450;
+		GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 	}
+
+	if (!IsSliding)
+	{
+		CountValueInSlideX = 0.f;
+	}
+	
 
     if (!IsMoving && SidewayMovement != 0.0f)
     {
@@ -192,11 +201,13 @@ void ADefaultMainCharacter::Look(const FInputActionValue& Value)
 	const FVector2D LookAxisValue = Value.Get<FVector2D>();
 	if (GetController())
 	{
-		AddControllerYawInput(LookAxisValue.X);
-		AddControllerPitchInput(LookAxisValue.Y);
-
-		MouseX = LookAxisValue.X;
-		MouseY = LookAxisValue.Y;
+		if (!IsSliding)
+		{
+			AddLookRotationInputs(LookAxisValue.X, LookAxisValue.Y);
+		} else
+		{
+			AddLookRotationInputsInSlide(LookAxisValue.X, LookAxisValue.Y);
+		}
 	}
 	
 	IsLooking = true;
@@ -380,6 +391,28 @@ void ADefaultMainCharacter::AttachRifleToSocket(FName SocketName)
 	if (CharacterWeapon && CharacterWeapon->GetWeaponType() == 0)
 	{
 		CharacterWeapon->AttachToComponent(GetMesh(), FAttachmentTransformRules::KeepRelativeTransform, SocketName);
+	}
+}
+
+void ADefaultMainCharacter::AddLookRotationInputs(float xVal, float yVal)
+{
+	AddControllerYawInput(xVal);
+	AddControllerPitchInput(yVal);
+	MouseX = xVal;
+	MouseY = yVal;
+}
+
+void ADefaultMainCharacter::AddLookRotationInputsInSlide(float xVal, float yVal)
+{
+	CountValueInSlideX += xVal;
+
+	AddControllerPitchInput(yVal);
+	MouseY = yVal;
+
+	if (CountValueInSlideX < MaxValueInSlideX && CountValueInSlideX > -MaxValueInSlideX)
+	{
+		AddControllerYawInput(xVal);
+		MouseX = xVal;
 	}
 }
 
