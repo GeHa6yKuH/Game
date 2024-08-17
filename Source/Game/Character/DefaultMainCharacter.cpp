@@ -115,6 +115,7 @@ void ADefaultMainCharacter::Tick(float DeltaTime)
 		CountValueInSlideX = 0.f;
 	}
 	
+	SetFlashlightCorrectPosition();
 
     if (!IsMoving && SidewayMovement != 0.0f)
     {

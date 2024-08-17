@@ -214,6 +214,9 @@ public:
 	void AudioAndRecoilIfWeaponPresent();
 
 	UFUNCTION(BlueprintImplementableEvent)
+	void SetFlashlightCorrectPosition();
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void PushBoneBack(FName Bone, FVector BonePushVector);
 
 	UFUNCTION()
