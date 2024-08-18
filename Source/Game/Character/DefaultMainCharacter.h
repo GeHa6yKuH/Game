@@ -131,6 +131,10 @@ private:
 
 	float CountValueInSlideX = 0.f;
 
+	FTimerHandle IdleTimerHandle;
+
+    float IdleTimeLimit = 5.0f;
+
 public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -160,6 +164,9 @@ public:
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	class UAnimMontage* PistolEquipAnimation;
+
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
+	class UAnimMontage* IdleAFKAnimation;
 
 	UPROPERTY(EditAnyWhere, BlueprintReadWrite)
 	bool CanSlide = false;
@@ -217,6 +224,9 @@ public:
 	void SetFlashlightCorrectPosition();
 
 	UFUNCTION(BlueprintImplementableEvent)
+	void PlayAFKAnimation();
+
+	UFUNCTION(BlueprintImplementableEvent)
 	void PushBoneBack(FName Bone, FVector BonePushVector);
 
 	UFUNCTION()
@@ -261,5 +271,10 @@ public:
 	void AddLookRotationInputs(float xVal, float yVal);
 
 	void AddLookRotationInputsInSlide(float xVal, float yVal);
+
+	UFUNCTION(BlueprintCallable)
+	void ResetIdleTimer();
+
+	void OnIdleTimeExceded();
 	
 };

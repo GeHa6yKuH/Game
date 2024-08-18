@@ -57,6 +57,7 @@ void ADefaultMainCharacter::BeginPlay()
 		//SpawnWeapon(RifleForAI);
 	}
 	
+	GetWorldTimerManager().SetTimer(IdleTimerHandle, this, &ADefaultMainCharacter::OnIdleTimeExceded, IdleTimeLimit, false);
 }
 
 void ADefaultMainCharacter::SpawnCardInHandsBeforeAnim()
@@ -164,6 +165,36 @@ void ADefaultMainCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInp
 		EnhancedInputComp->BindAction(TakeGrenadeAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::TakeGrenade);
 
 		EnhancedInputComp->BindAction(SetGrenadeSpeedAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::SetGrenadeSpeed);
+
+
+		// --------------------------------------------------------------------------------------------------------------------------------
+
+
+		EnhancedInputComp->BindAction(MoveAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(LookAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Started, this, &ADefaultMainCharacter::ResetIdleTimer);
+		EnhancedInputComp->BindAction(RunAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+		EnhancedInputComp->BindAction(ShootAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(ShootTouchAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+		EnhancedInputComp->BindAction(ShootTouchAction, ETriggerEvent::Completed, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(InteractAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(TakeFirstWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+		EnhancedInputComp->BindAction(TakeSecondWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(ReloadWeaponAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(TakeGrenadeAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
+
+		EnhancedInputComp->BindAction(SetGrenadeSpeedAction, ETriggerEvent::Triggered, this, &ADefaultMainCharacter::ResetIdleTimer);
 	}
 }
 
@@ -415,6 +446,23 @@ void ADefaultMainCharacter::AddLookRotationInputsInSlide(float xVal, float yVal)
 		AddControllerYawInput(xVal);
 		MouseX = xVal;
 	}
+}
+
+void ADefaultMainCharacter::ResetIdleTimer()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+    if (AnimInstance)
+    {
+        AnimInstance->Montage_Stop(0.3, IdleAFKAnimation);
+    }
+
+	GetWorldTimerManager().ClearTimer(IdleTimerHandle);
+    GetWorldTimerManager().SetTimer(IdleTimerHandle, this, &ADefaultMainCharacter::OnIdleTimeExceded, IdleTimeLimit, false);
+}
+
+void ADefaultMainCharacter::OnIdleTimeExceded()
+{
+	PlayAFKAnimation();
 }
 
 void ADefaultMainCharacter::ReloadWeapon(const FInputActionValue& Value)
